@@ -18,7 +18,7 @@ import com.heistcorp.heistcraft.navigation.AppNavHost
 import com.heistcorp.heistcraft.navigation.Destination
 
 @Composable
-fun PnetApp(modifier: Modifier = Modifier) {
+fun App(modifier: Modifier = Modifier) {
     val appState = rememberAppState()
     val currentDestination = appState.currentDestination()
 

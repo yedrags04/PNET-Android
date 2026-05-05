@@ -4,7 +4,7 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
-import com.heistcorp.heistcraft.app.PnetApp
+import com.heistcorp.heistcraft.app.App
 import com.heistcorp.heistcraft.ui.theme.MyApplicationTheme
 
 class MainActivity : ComponentActivity() {
@@ -13,7 +13,7 @@ class MainActivity : ComponentActivity() {
         enableEdgeToEdge()
         setContent {
             MyApplicationTheme {
-                PnetApp()
+                App()
             }
         }
     }

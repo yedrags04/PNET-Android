@@ -1,4 +1,4 @@
-package com.example.myapplication
+package com.heistcorp.heistcraft
 
 import org.junit.Test
 

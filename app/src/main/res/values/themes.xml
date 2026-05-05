@@ -1,5 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <style name="Theme.MyApplication" parent="android:Theme.Material.Light.NoActionBar" />
+    <style name="Theme.HeistCraft" parent="android:Theme.Material.NoActionBar">
+        <!-- Launch/background colors aligned with Compose dark palette -->
+        <item name="android:windowBackground">@color/heist_surface</item>
+        <item name="android:colorBackground">@color/heist_surface</item>
+
+        <!-- System bars -->
+        <item name="android:statusBarColor">@color/heist_surface</item>
+        <item name="android:navigationBarColor">@color/heist_surface</item>
+        <item name="android:windowLightStatusBar">false</item>
+    </style>
 </resources>

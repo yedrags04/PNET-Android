@@ -3,13 +3,16 @@ package com.heistcorp.heistcraft.app
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Icon
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.NavigationBar
 import androidx.compose.material3.NavigationBarDefaults
 import androidx.compose.material3.NavigationBarItem
+import androidx.compose.material3.NavigationBarItemDefaults
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.unit.dp
 import androidx.navigation.NavDestination
 import com.heistcorp.heistcraft.navigation.AppNavHost
 import com.heistcorp.heistcraft.navigation.Destination
@@ -43,11 +46,25 @@ private fun AppBottomBar(
     currentDestination: NavDestination?,
     onDestinationClick: (Destination) -> Unit
 ) {
-    NavigationBar(windowInsets = NavigationBarDefaults.windowInsets) {
+    val colorScheme = MaterialTheme.colorScheme
+
+    NavigationBar(
+        containerColor = colorScheme.secondary,
+        contentColor = colorScheme.onSecondary,
+        tonalElevation = 0.dp,
+        windowInsets = NavigationBarDefaults.windowInsets
+    ) {
         destinations.forEach { destination ->
             NavigationBarItem(
                 selected = currentDestination.isRouteInHierarchy(destination.route),
                 onClick = { onDestinationClick(destination) },
+                colors = NavigationBarItemDefaults.colors(
+                    selectedIconColor = colorScheme.primary,
+                    selectedTextColor = colorScheme.onSecondary,
+                    indicatorColor = colorScheme.surfaceVariant,
+                    unselectedIconColor = colorScheme.onSurfaceVariant,
+                    unselectedTextColor = colorScheme.onSurfaceVariant
+                ),
                 icon = {
                     Icon(
                         imageVector = destination.icon,

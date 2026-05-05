@@ -2,10 +2,18 @@ package com.heistcorp.heistcraft.ui.theme
 
 import androidx.compose.ui.graphics.Color
 
-val Purple80 = Color(0xFFD0BCFF)
-val PurpleGrey80 = Color(0xFFCCC2DC)
-val Pink80 = Color(0xFFEFB8C8)
+// Colores base
+val HeistSurface = Color(0xFF18181B)    // --color-surface
+val HeistRaised = Color(0xFF27272A)     // --color-raised
+val HeistOverlay = Color(0xFF3F3F46)    // --color-overlay
+val HeistHighlight = Color(0xFF52525C)  // --color-highlight
 
-val Purple40 = Color(0xFF6650a4)
-val PurpleGrey40 = Color(0xFF625b71)
-val Pink40 = Color(0xFF7D5260)
+// Colores de marca y semánticos
+val HeistAccent = Color(0xFFFDC700)     // --color-accent
+val HeistSuccess = Color(0xFF05DF72)    // --color-success
+val HeistWarn = Color(0xFFFF8904)       // --color-warn
+val HeistError = Color(0xFFFF6467)      // --color-error
+
+// Colores del texto
+val HeistText = Color(0xFFF4F4F5)       // --color-text
+val HeistMuted = Color(0xFF9F9FA9)      // --color-muted

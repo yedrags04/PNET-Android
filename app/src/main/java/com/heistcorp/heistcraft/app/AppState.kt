@@ -20,7 +20,7 @@ fun rememberAppState(
 class AppState(
     val navController: NavHostController
 ) {
-    val topLevelDestinations: List<Destination> = Destination.topLevelDestinations
+    val bottomDestinations: List<Destination> = Destination.bottomDestinations
 
     @Composable
     fun currentDestination(): NavDestination? {
@@ -37,6 +37,7 @@ class AppState(
             restoreState = true
         }
     }
+
 }
 
 fun NavDestination?.isRouteInHierarchy(route: String): Boolean {

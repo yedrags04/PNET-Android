@@ -1,15 +1,12 @@
 plugins {
     alias(libs.plugins.android.application)
+    // AGP 9+: Kotlin va integrado en el plugin de Android; no añadir org.jetbrains.kotlin.android.
     alias(libs.plugins.kotlin.compose)
 }
 
 android {
     namespace = "com.heistcorp.heistcraft"
-    compileSdk {
-        version = release(36) {
-            minorApiLevel = 1
-        }
-    }
+    compileSdk = 36
 
     defaultConfig {
         applicationId = "com.heistcorp.heistcraft"
@@ -19,6 +16,8 @@ android {
         versionName = "1.0"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+        // Emulador Android → máquina host: 10.0.2.2. En dispositivo físico, cambia a http://TU_IP_LAN:8080/
+        buildConfigField("String", "API_BASE_URL", "\"http://10.0.2.2:8080/\"")
     }
 
     buildTypes {
@@ -30,12 +29,16 @@ android {
             )
         }
     }
+
     compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_11
-        targetCompatibility = JavaVersion.VERSION_11
+        // Actualizado a Java 17 para compatibilidad con las últimas versiones
+        sourceCompatibility = JavaVersion.VERSION_17
+        targetCompatibility = JavaVersion.VERSION_17
     }
+
     buildFeatures {
         compose = true
+        buildConfig = true
     }
 }
 
@@ -50,6 +53,19 @@ dependencies {
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.lifecycle.runtime.ktx)
     implementation(libs.androidx.navigation.compose)
+
+    // Retrofit y red
+    implementation(libs.retrofit.core)
+    implementation(libs.retrofit.converter.gson)
+    implementation(libs.gson)
+    implementation(libs.okhttp)
+
+    // Imágenes (Coil)
+    implementation(libs.coil.compose)
+
+    // Corrutinas
+    implementation(libs.kotlinx.coroutines.android)
+
     testImplementation(libs.junit)
     androidTestImplementation(platform(libs.androidx.compose.bom))
     androidTestImplementation(libs.androidx.compose.ui.test.junit4)

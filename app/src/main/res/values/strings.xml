@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">HeistCraft</string>
+    <string name="nombre_establecimiento">HeistCraft — Operaciones y equipamiento</string>
+    <string name="nombre_desarrollador">Desarrolladora: Yedra García Sánchez</string>
 </resources>

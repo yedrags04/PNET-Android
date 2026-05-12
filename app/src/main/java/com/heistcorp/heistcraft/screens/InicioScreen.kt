@@ -1,26 +1,29 @@
 package com.heistcorp.heistcraft.screens
 
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.AccountCircle
 import androidx.compose.material.icons.filled.ArrowDropDown
 import androidx.compose.material.icons.filled.Search
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.DatePicker
@@ -45,9 +48,8 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
@@ -55,6 +57,7 @@ import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
 import com.heistcorp.heistcraft.R
+import com.heistcorp.heistcraft.auth.AppAuth
 import com.heistcorp.heistcraft.data.BancoApi
 import com.heistcorp.heistcraft.network.ApiClient
 import com.heistcorp.heistcraft.util.resolveAssetUrl
@@ -64,7 +67,13 @@ import java.util.Locale
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun InicioScreen(modifier: Modifier = Modifier) {
+fun InicioScreen(
+    onNavigateToLogin: () -> Unit,
+    onNavigateToPerfil: () -> Unit,
+    modifier: Modifier = Modifier,
+) {
+    val sesionActiva = AppAuth.currentEmail != null
+
     var textoBusqueda by remember { mutableStateOf("") }
 
     val datePickerState = rememberDatePickerState()
@@ -103,31 +112,36 @@ fun InicioScreen(modifier: Modifier = Modifier) {
             modifier = Modifier.padding(horizontal = 16.dp),
             verticalArrangement = Arrangement.spacedBy(16.dp),
         ) {
-            // No usar R.mipmap.ic_launcher: en v26+ es adaptive-icon (XML) y painterResource() crashea.
-            Image(
-                painter = painterResource(R.drawable.ic_heist_logo),
-                contentDescription = "Logotipo HeistCraft",
-                modifier =
-                    Modifier
-                        .fillMaxWidth()
-                        .height(72.dp),
-                contentScale = ContentScale.Fit,
-            )
-            Text(
-                text = stringResource(R.string.nombre_establecimiento),
-                style = MaterialTheme.typography.titleMedium,
-                color = Color(0xFFFFC107),
-                fontWeight = FontWeight.SemiBold,
-                textAlign = TextAlign.Center,
+            Row(
                 modifier = Modifier.fillMaxWidth(),
-            )
-            Text(
-                text = stringResource(R.string.nombre_desarrollador),
-                style = MaterialTheme.typography.bodyMedium,
-                color = Color.LightGray,
-                textAlign = TextAlign.Center,
-                modifier = Modifier.fillMaxWidth(),
-            )
+                horizontalArrangement = Arrangement.End,
+                verticalAlignment = Alignment.CenterVertically,
+            ) {
+                if (sesionActiva) {
+                    IconButton(onClick = onNavigateToPerfil) {
+                        Icon(
+                            imageVector = Icons.Filled.AccountCircle,
+                            contentDescription = stringResource(R.string.cd_ir_perfil),
+                            modifier = Modifier.size(40.dp),
+                            tint = MaterialTheme.colorScheme.primary,
+                        )
+                    }
+                } else {
+                    Button(
+                        onClick = onNavigateToLogin,
+                        colors =
+                            ButtonDefaults.buttonColors(
+                                containerColor = MaterialTheme.colorScheme.primary,
+                                contentColor = MaterialTheme.colorScheme.onPrimary,
+                            ),
+                    ) {
+                        Text(
+                            stringResource(R.string.iniciar_sesion),
+                            style = MaterialTheme.typography.labelLarge,
+                        )
+                    }
+                }
+            }
             Text(
                 text = "Expertos en robos desde 1942",
                 style = MaterialTheme.typography.headlineLarge,

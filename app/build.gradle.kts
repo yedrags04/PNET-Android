@@ -17,7 +17,8 @@ android {
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         // Emulador Android → máquina host: 10.0.2.2. En dispositivo físico, cambia a http://TU_IP_LAN:8080/
-        buildConfigField("String", "API_BASE_URL", "\"http://10.0.2.2:8080/\"")
+        // API propia del repo: PNET-Android/api/animal-api-mongo (npm start, PORT en .env, por defecto 3000)
+        buildConfigField("String", "API_BASE_URL", "\"http://10.0.2.2:3000/\"")
     }
 
     buildTypes {

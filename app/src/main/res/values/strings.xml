@@ -1,5 +1,32 @@
 <resources>
     <string name="app_name">HeistCraft</string>
     <string name="nombre_establecimiento">HeistCraft — Operaciones y equipamiento</string>
-    <string name="nombre_desarrollador">Desarrolladora: Yedra García Sánchez</string>
+    <string name="iniciar_sesion">Iniciar sesión</string>
+    <string name="cd_ir_perfil">Ir al perfil</string>
+
+    <string name="field_nombre_completo">Nombre completo</string>
+    <string name="field_apodo">Apodo</string>
+    <string name="field_anos_experiencia">Años de experiencia</string>
+    <string name="field_anos_experiencia_ayuda">Indica un número entre 0 y 80</string>
+    <string name="field_habilidad_principal">Habilidad principal</string>
+    <string name="field_otras_habilidades">Otras habilidades (opcional)</string>
+    <string name="field_correo">Correo</string>
+    <string name="field_contrasena">Contraseña</string>
+    <string name="field_confirmar_contrasena">Confirmar contraseña</string>
+
+    <string name="registro_subtitulo">Completa tu ficha de operativo. Estos datos aparecerán en tu perfil.</string>
+    <string name="registrarse">Registrarse</string>
+    <string name="error_correo_ya_registrado">Ya existe una cuenta con este correo.</string>
+    <string name="error_credenciales">Correo o contraseña incorrectos, o aún no te has registrado.</string>
+    <string name="entrar">Entrar</string>
+
+    <string name="perfil_seccion_ficha">Tu ficha</string>
+    <string name="perfil_no_sesion">No has iniciado sesión.</string>
+    <string name="ir_iniciar_sesion">Ir a iniciar sesión</string>
+    <string name="cerrar_sesion">Cerrar sesión</string>
+
+    <plurals name="perfil_anos_valor">
+        <item quantity="one">%d año</item>
+        <item quantity="other">%d años</item>
+    </plurals>
 </resources>

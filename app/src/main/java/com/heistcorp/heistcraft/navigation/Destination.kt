@@ -1,21 +1,17 @@
 package com.heistcorp.heistcraft.navigation
 
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.AccountCircle
 import androidx.compose.material.icons.filled.AttachMoney
 import androidx.compose.material.icons.filled.Handyman
 import androidx.compose.material.icons.filled.HelpOutline
 import androidx.compose.material.icons.filled.Home
 import androidx.compose.material.icons.filled.List
-import androidx.compose.material.icons.filled.MeetingRoom
-import androidx.compose.material.icons.filled.MenuBook
-import androidx.compose.material.icons.filled.Pets
-import androidx.compose.material.icons.filled.Place
+import androidx.compose.material.icons.filled.Lock
+import androidx.compose.material.icons.filled.PersonAdd
 import androidx.compose.ui.graphics.vector.ImageVector
 
-/**
- * Destinos de navegación. La barra inferior cubre el flujo principal; el cajón lateral (rúbrica)
- * incluye Salas, Reservas, Animales, Tutorial y Localización.
- */
+/** Destinos de navegación y barra inferior. Acceso y perfil desde la pantalla de inicio. */
 sealed class Destination(
     val route: String,
     val label: String,
@@ -43,13 +39,6 @@ sealed class Destination(
         contentDescription = "Pantalla de utensilios",
     )
 
-    data object Salas : Destination(
-        route = "salas",
-        label = "Salas",
-        icon = Icons.Filled.MeetingRoom,
-        contentDescription = "Información de salas",
-    )
-
     data object Reservas : Destination(
         route = "reservas",
         label = "Reservas",
@@ -57,25 +46,25 @@ sealed class Destination(
         contentDescription = "Listado de reservas",
     )
 
-    data object Animales : Destination(
-        route = "animales",
-        label = "Animales",
-        icon = Icons.Filled.Pets,
-        contentDescription = "API animales MongoDB",
+    data object Login : Destination(
+        route = "login",
+        label = "Iniciar sesión",
+        icon = Icons.Filled.Lock,
+        contentDescription = "Iniciar sesión",
     )
 
-    data object Tutorial : Destination(
-        route = "tutorial",
-        label = "Tutorial",
-        icon = Icons.Filled.MenuBook,
-        contentDescription = "Guía de uso",
+    data object Signup : Destination(
+        route = "signup",
+        label = "Registro",
+        icon = Icons.Filled.PersonAdd,
+        contentDescription = "Crear cuenta",
     )
 
-    data object Localizacion : Destination(
-        route = "localizacion",
-        label = "Localización",
-        icon = Icons.Filled.Place,
-        contentDescription = "Mapa de instalaciones",
+    data object Perfil : Destination(
+        route = "perfil",
+        label = "Perfil",
+        icon = Icons.Filled.AccountCircle,
+        contentDescription = "Perfil de usuario",
     )
 
     data object Faq : Destination(
@@ -86,11 +75,7 @@ sealed class Destination(
     )
 
     companion object {
-        val bottomDestinations = listOf(Inicio, Bancos, Utensilios)
-
-        /** Destinos adicionales del menú lateral (Navigation Drawer). */
-        val drawerDestinations =
-            listOf(Salas, Reservas, Animales, Tutorial, Localizacion, Faq)
+        val bottomDestinations = listOf(Inicio, Bancos, Utensilios, Faq)
 
         @Deprecated("Usar bottomDestinations", ReplaceWith("Destination.bottomDestinations"))
         val topLevelDestinations = bottomDestinations

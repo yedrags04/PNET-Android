@@ -7,17 +7,16 @@ import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.navArgument
-import com.heistcorp.heistcraft.screens.AnimalesScreen
 import com.heistcorp.heistcraft.screens.BancosScreen
 import com.heistcorp.heistcraft.screens.EditarReservaScreen
 import com.heistcorp.heistcraft.screens.FaqScreen
 import com.heistcorp.heistcraft.screens.InicioScreen
-import com.heistcorp.heistcraft.screens.LocalizacionScreen
+import com.heistcorp.heistcraft.screens.LoginScreen
 import com.heistcorp.heistcraft.screens.NuevaReservaScreen
+import com.heistcorp.heistcraft.screens.PerfilScreen
 import com.heistcorp.heistcraft.screens.ReservaDetalleScreen
 import com.heistcorp.heistcraft.screens.ReservasListScreen
-import com.heistcorp.heistcraft.screens.SalasScreen
-import com.heistcorp.heistcraft.screens.TutorialScreen
+import com.heistcorp.heistcraft.screens.SignupScreen
 import com.heistcorp.heistcraft.screens.UtensiliosScreen
 
 @Composable
@@ -32,7 +31,14 @@ fun AppNavHost(
         modifier = modifier,
     ) {
         composable(route = Destination.Inicio.route) {
-            InicioScreen()
+            InicioScreen(
+                onNavigateToLogin = {
+                    navController.navigate(Destination.Login.route) { launchSingleTop = true }
+                },
+                onNavigateToPerfil = {
+                    navController.navigate(Destination.Perfil.route) { launchSingleTop = true }
+                },
+            )
         }
 
         composable(route = Destination.Bancos.route) {
@@ -41,10 +47,6 @@ fun AppNavHost(
 
         composable(route = Destination.Utensilios.route) {
             UtensiliosScreen()
-        }
-
-        composable(route = Destination.Salas.route) {
-            SalasScreen(onBack = { navController.popBackStack() })
         }
 
         composable(route = Destination.Reservas.route) {
@@ -71,16 +73,37 @@ fun AppNavHost(
             NuevaReservaScreen(navController = navController)
         }
 
-        composable(route = Destination.Animales.route) {
-            AnimalesScreen(onBack = { navController.popBackStack() })
+        composable(route = Destination.Login.route) {
+            LoginScreen(
+                onBack = { navController.popBackStack() },
+                onNavigateToSignup = {
+                    navController.navigate(Destination.Signup.route) {
+                        popUpTo(Destination.Login.route) { inclusive = true }
+                        launchSingleTop = true
+                    }
+                },
+            )
         }
 
-        composable(route = Destination.Tutorial.route) {
-            TutorialScreen(onBack = { navController.popBackStack() })
+        composable(route = Destination.Signup.route) {
+            SignupScreen(
+                onBack = { navController.popBackStack() },
+                onNavigateToLogin = {
+                    navController.navigate(Destination.Login.route) {
+                        popUpTo(Destination.Signup.route) { inclusive = true }
+                        launchSingleTop = true
+                    }
+                },
+            )
         }
 
-        composable(route = Destination.Localizacion.route) {
-            LocalizacionScreen(onBack = { navController.popBackStack() })
+        composable(route = Destination.Perfil.route) {
+            PerfilScreen(
+                onBack = { navController.popBackStack() },
+                onNavigateToLogin = {
+                    navController.navigate(Destination.Login.route) { launchSingleTop = true }
+                },
+            )
         }
 
         composable(route = Destination.Faq.route) {

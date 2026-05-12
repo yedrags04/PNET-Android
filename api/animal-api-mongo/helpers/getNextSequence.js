@@ -1,4 +1,4 @@
-const Counter = require("../models/Counter");
+const Counter = require("../models/counter");
 
 async function getNextSequence(name) {
   const result = await Counter.findByIdAndUpdate(

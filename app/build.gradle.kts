@@ -8,6 +8,12 @@ android {
     namespace = "com.heistcorp.heistcraft"
     compileSdk = 36
 
+    sourceSets {
+        getByName("main").java.srcDir("src/main/kotlin")
+        getByName("test").java.srcDir("src/test/kotlin")
+        getByName("androidTest").java.srcDir("src/androidTest/kotlin")
+    }
+
     defaultConfig {
         applicationId = "com.heistcorp.heistcraft"
         minSdk = 24

@@ -36,7 +36,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
+import com.heistcorp.heistcraft.ui.theme.HeistPalette
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
@@ -81,9 +81,9 @@ fun ReservasListScreen(navController: NavHostController) {
                 title = { Text("Reservas vigentes") },
                 colors =
                     TopAppBarDefaults.topAppBarColors(
-                        containerColor = Color(0xFF1E2333),
-                        titleContentColor = Color.White,
-                        navigationIconContentColor = Color.White,
+                        containerColor = HeistPalette.card,
+                        titleContentColor = HeistPalette.text,
+                        navigationIconContentColor = HeistPalette.text,
                     ),
                 navigationIcon = {
                     IconButton(onClick = { navController.popBackStack() }) {
@@ -97,16 +97,16 @@ fun ReservasListScreen(navController: NavHostController) {
                 onClick = { navController.navigate(NavRoutes.NUEVA_RESERVA) },
                 icon = { Icon(Icons.Filled.Add, contentDescription = null) },
                 text = { Text("Nueva reserva") },
-                containerColor = Color(0xFF4CAF50),
+                containerColor = HeistPalette.positiveGreen,
             )
         },
     ) { padding ->
         when {
             cargando ->
-                Text("Cargando…", modifier = Modifier.padding(padding).padding(16.dp), color = Color.White)
+                Text("Cargando…", modifier = Modifier.padding(padding).padding(16.dp), color = HeistPalette.text)
             error != null ->
                 Column(Modifier.padding(padding).padding(16.dp)) {
-                    Text(error!!, color = Color(0xFFFF7043))
+                    Text(error!!, color = HeistPalette.errorSoft)
                     TextButton(onClick = { recargar() }) { Text("Reintentar") }
                 }
             else ->
@@ -114,7 +114,7 @@ fun ReservasListScreen(navController: NavHostController) {
                     modifier =
                         Modifier
                             .fillMaxSize()
-                            .background(Color(0xFF131722))
+                            .background(HeistPalette.screenBackground)
                             .padding(padding),
                     contentPadding = PaddingValues(16.dp),
                     verticalArrangement = Arrangement.spacedBy(12.dp),
@@ -125,12 +125,12 @@ fun ReservasListScreen(navController: NavHostController) {
                                 Modifier
                                     .fillMaxWidth()
                                     .clickable { navController.navigate(NavRoutes.reservaDetalle(r.id)) },
-                            colors = CardDefaults.cardColors(containerColor = Color(0xFF1E2333)),
+                            colors = CardDefaults.cardColors(containerColor = HeistPalette.card),
                         ) {
                             Column(Modifier.padding(16.dp)) {
-                                Text(r.leaderName ?: "—", color = Color.White, fontWeight = FontWeight.Bold)
-                                Text("Banco: ${r.bankId ?: "—"}", color = Color.LightGray, style = MaterialTheme.typography.bodySmall)
-                                Text("${r.operationDate ?: ""} ${r.operationTime ?: ""}", color = Color(0xFF4CAF50))
+                                Text(r.leaderName ?: "—", color = HeistPalette.text, fontWeight = FontWeight.Bold)
+                                Text("Banco: ${r.bankId ?: "—"}", color = HeistPalette.muted, style = MaterialTheme.typography.bodySmall)
+                                Text("${r.operationDate ?: ""} ${r.operationTime ?: ""}", color = HeistPalette.positiveGreen)
                             }
                         }
                     }
@@ -169,9 +169,9 @@ fun ReservaDetalleScreen(
                 title = { Text("Detalle de reserva") },
                 colors =
                     TopAppBarDefaults.topAppBarColors(
-                        containerColor = Color(0xFF1E2333),
-                        titleContentColor = Color.White,
-                        navigationIconContentColor = Color.White,
+                        containerColor = HeistPalette.card,
+                        titleContentColor = HeistPalette.text,
+                        navigationIconContentColor = HeistPalette.text,
                     ),
                 navigationIcon = {
                     IconButton(onClick = { navController.popBackStack() }) {
@@ -186,33 +186,33 @@ fun ReservaDetalleScreen(
             modifier =
                 Modifier
                     .fillMaxSize()
-                    .background(Color(0xFF131722))
+                    .background(HeistPalette.screenBackground)
                     .padding(padding)
                     .padding(16.dp),
             verticalArrangement = Arrangement.spacedBy(12.dp),
         ) {
             when {
-                cargando -> Text("Cargando…", color = Color.White)
-                r == null -> Text("No se encontró la reserva.", color = Color(0xFFFF7043))
+                cargando -> Text("Cargando…", color = HeistPalette.text)
+                r == null -> Text("No se encontró la reserva.", color = HeistPalette.errorSoft)
                 else -> {
-                    Text("Líder: ${r.leaderName}", color = Color.White, fontWeight = FontWeight.Bold)
-                    Text("Email: ${r.leaderEmail}", color = Color.LightGray)
-                    Text("Experiencia: ${r.experience}", color = Color.LightGray)
-                    Text("Banco (id): ${r.bankId}", color = Color.LightGray)
-                    Text("Fecha: ${r.operationDate}  Hora: ${r.operationTime}", color = Color.White)
-                    Text("Equipo: ${r.teamSize}  Riesgo: ${r.riskLevel}", color = Color.LightGray)
-                    Text("Presupuesto: ${r.budget} €", color = Color(0xFF4CAF50))
-                    Text("Equipo necesario:\n${r.equipment}", color = Color.LightGray)
-                    Text("Plan:\n${r.plan}", color = Color.LightGray)
-                    Text("Especialidades: ${r.specialties?.joinToString()}", color = Color.LightGray)
+                    Text("Líder: ${r.leaderName}", color = HeistPalette.text, fontWeight = FontWeight.Bold)
+                    Text("Email: ${r.leaderEmail}", color = HeistPalette.muted)
+                    Text("Experiencia: ${r.experience}", color = HeistPalette.muted)
+                    Text("Banco (id): ${r.bankId}", color = HeistPalette.muted)
+                    Text("Fecha: ${r.operationDate}  Hora: ${r.operationTime}", color = HeistPalette.text)
+                    Text("Equipo: ${r.teamSize}  Riesgo: ${r.riskLevel}", color = HeistPalette.muted)
+                    Text("Presupuesto: ${r.budget} €", color = HeistPalette.positiveGreen)
+                    Text("Equipo necesario:\n${r.equipment}", color = HeistPalette.muted)
+                    Text("Plan:\n${r.plan}", color = HeistPalette.muted)
+                    Text("Especialidades: ${r.specialties?.joinToString()}", color = HeistPalette.muted)
 
                     TextButton(
                         onClick = { navController.navigate(NavRoutes.editarReserva(r.id)) },
                     ) {
-                        Text("Editar", color = Color(0xFF4CAF50))
+                        Text("Editar", color = HeistPalette.positiveGreen)
                     }
                     TextButton(onClick = { confirmarBorrado = true }) {
-                        Text("Eliminar", color = Color(0xFFFF5252))
+                        Text("Eliminar", color = HeistPalette.delete)
                     }
                 }
             }
@@ -239,7 +239,7 @@ fun ReservaDetalleScreen(
                         confirmarBorrado = false
                     },
                 ) {
-                    Text("Eliminar", color = Color.Red)
+                    Text("Eliminar", color = HeistPalette.delete)
                 }
             },
             dismissButton = {
@@ -281,7 +281,7 @@ fun EditarReservaScreen(
         modifier =
             Modifier
                 .fillMaxSize()
-                .background(Color(0xFF131722)),
+                .background(HeistPalette.screenBackground),
     ) {
         if (r != null && bankId != null) {
             FormularioReservaDialog(
@@ -304,7 +304,7 @@ fun EditarReservaScreen(
                 },
             )
         } else {
-            Text("No se pudo cargar la reserva.", color = Color.White, modifier = Modifier.padding(24.dp))
+            Text("No se pudo cargar la reserva.", color = HeistPalette.text, modifier = Modifier.padding(24.dp))
             TextButton(onClick = { navController.popBackStack() }) {
                 Text("Volver")
             }
@@ -333,12 +333,12 @@ fun NuevaReservaScreen(navController: NavHostController) {
         modifier =
             Modifier
                 .fillMaxSize()
-                .background(Color(0xFF131722)),
+                .background(HeistPalette.screenBackground),
     ) {
         if (bankId == null) {
             Text(
                 "Elige banco objetivo",
-                color = Color.White,
+                color = HeistPalette.text,
                 fontWeight = FontWeight.Bold,
                 modifier = Modifier.padding(16.dp),
             )

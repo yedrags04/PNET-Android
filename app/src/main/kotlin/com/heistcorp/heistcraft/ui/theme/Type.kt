@@ -23,7 +23,7 @@ private val DmSerifDisplay = FontFamily(
 
 private val DefaultTypography = Typography()
 
-val Typography = Typography(
+val AppTypography = Typography(
     // Títulos
     displayLarge = DefaultTypography.displayLarge.copy(fontFamily = DmSerifDisplay),
     displayMedium = DefaultTypography.displayMedium.copy(fontFamily = DmSerifDisplay),

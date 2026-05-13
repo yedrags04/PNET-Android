@@ -48,7 +48,7 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
+import com.heistcorp.heistcraft.ui.theme.HeistPalette
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
@@ -164,19 +164,19 @@ fun BancosScreen(modifier: Modifier = Modifier) {
         modifier =
             modifier
                 .fillMaxSize()
-                .background(Color(0xFF131722))
+                .background(HeistPalette.screenBackground)
                 .padding(16.dp),
     ) {
         Text(
             text = "Bancos disponibles",
             style = MaterialTheme.typography.headlineMedium,
-            color = Color.White,
+            color = HeistPalette.text,
             fontWeight = FontWeight.Bold,
             modifier = Modifier.padding(bottom = 16.dp),
         )
 
         Surface(
-            color = Color(0xFF1E2333),
+            color = HeistPalette.card,
             shape = MaterialTheme.shapes.medium,
             modifier =
                 Modifier
@@ -188,11 +188,11 @@ fun BancosScreen(modifier: Modifier = Modifier) {
                 horizontalArrangement = Arrangement.SpaceBetween,
                 verticalAlignment = Alignment.CenterVertically,
             ) {
-                Text("Filtros", color = Color.White)
+                Text("Filtros", color = HeistPalette.text)
                 Icon(
                     imageVector = if (mostrarFiltros) Icons.Filled.KeyboardArrowUp else Icons.Filled.KeyboardArrowDown,
                     contentDescription = "Alternar filtros",
-                    tint = Color.White,
+                    tint = HeistPalette.text,
                 )
             }
         }
@@ -236,7 +236,7 @@ fun BancosScreen(modifier: Modifier = Modifier) {
                     DropdownMenu(
                         expanded = expandirDificultad,
                         onDismissRequest = { expandirDificultad = false },
-                        modifier = Modifier.background(Color(0xFF1E2333)),
+                        modifier = Modifier.background(HeistPalette.card),
                     ) {
                         listOf(
                             "" to "Todos",
@@ -245,7 +245,7 @@ fun BancosScreen(modifier: Modifier = Modifier) {
                             "alta" to "Alta",
                         ).forEach { (value, label) ->
                             DropdownMenuItem(
-                                text = { Text(label, color = Color.White) },
+                                text = { Text(label, color = HeistPalette.text) },
                                 onClick = {
                                     filtroDificultad = value
                                     expandirDificultad = false
@@ -256,7 +256,7 @@ fun BancosScreen(modifier: Modifier = Modifier) {
                 }
 
                 Column {
-                    Text("Dinero a ganar: ${filtroRecompensa.toInt()} €", color = Color.White)
+                    Text("Dinero a ganar: ${filtroRecompensa.toInt()} €", color = HeistPalette.text)
                     Slider(
                         value = filtroRecompensa,
                         onValueChange = { filtroRecompensa = it },
@@ -286,7 +286,7 @@ fun BancosScreen(modifier: Modifier = Modifier) {
                     DropdownMenu(
                         expanded = expandirDisponibilidad,
                         onDismissRequest = { expandirDisponibilidad = false },
-                        modifier = Modifier.background(Color(0xFF1E2333)),
+                        modifier = Modifier.background(HeistPalette.card),
                     ) {
                         listOf(
                             "todos" to "Todos",
@@ -294,7 +294,7 @@ fun BancosScreen(modifier: Modifier = Modifier) {
                             "no" to "No (Ocupado)",
                         ).forEach { (value, label) ->
                             DropdownMenuItem(
-                                text = { Text(label, color = Color.White) },
+                                text = { Text(label, color = HeistPalette.text) },
                                 onClick = {
                                     filtroDisponibilidad = value
                                     expandirDisponibilidad = false
@@ -312,7 +312,7 @@ fun BancosScreen(modifier: Modifier = Modifier) {
                         filtroDisponibilidad = "todos"
                     },
                     modifier = Modifier.fillMaxWidth(),
-                    colors = ButtonDefaults.buttonColors(containerColor = Color.DarkGray),
+                    colors = ButtonDefaults.buttonColors(containerColor = HeistPalette.neutralMid),
                 ) {
                     Text("Quitar filtros")
                 }
@@ -324,14 +324,14 @@ fun BancosScreen(modifier: Modifier = Modifier) {
         when {
             loading ->
                 Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
-                    CircularProgressIndicator(color = Color(0xFF4CAF50))
+                    CircularProgressIndicator(color = HeistPalette.positiveGreen)
                 }
             loadError != null ->
                 Column(
                     modifier = Modifier.fillMaxWidth(),
                     verticalArrangement = Arrangement.spacedBy(12.dp),
                 ) {
-                    Text(loadError!!, color = Color(0xFFFF7043))
+                    Text(loadError!!, color = HeistPalette.errorSoft)
                     Button(onClick = { refreshData() }) {
                         Text("Reintentar")
                     }
@@ -419,13 +419,13 @@ fun BancosScreen(modifier: Modifier = Modifier) {
 @Composable
 private fun filterFieldColors() =
     OutlinedTextFieldDefaults.colors(
-        focusedTextColor = Color.White,
-        unfocusedTextColor = Color.White,
-        disabledTextColor = Color.White,
-        disabledBorderColor = Color.Gray,
-        disabledTrailingIconColor = Color.White,
-        focusedLabelColor = Color.LightGray,
-        unfocusedLabelColor = Color.LightGray,
+        focusedTextColor = HeistPalette.text,
+        unfocusedTextColor = HeistPalette.text,
+        disabledTextColor = HeistPalette.text,
+        disabledBorderColor = HeistPalette.muted,
+        disabledTrailingIconColor = HeistPalette.text,
+        focusedLabelColor = HeistPalette.muted,
+        unfocusedLabelColor = HeistPalette.muted,
     )
 
 @Composable
@@ -440,7 +440,7 @@ private fun BancoCard(
             Modifier
                 .fillMaxWidth()
                 .clickable(onClick = onClick),
-        colors = CardDefaults.elevatedCardColors(containerColor = Color(0xFF1E2333)),
+        colors = CardDefaults.elevatedCardColors(containerColor = HeistPalette.card),
     ) {
         Column(modifier = Modifier.padding(16.dp)) {
             Box(
@@ -448,7 +448,7 @@ private fun BancoCard(
                     Modifier
                         .fillMaxWidth()
                         .height(100.dp)
-                        .background(Color.DarkGray),
+                        .background(HeistPalette.neutralMid),
             ) {
                 if (url.isNotBlank()) {
                     AsyncImage(
@@ -464,17 +464,17 @@ private fun BancoCard(
                 }
             }
             Spacer(modifier = Modifier.height(8.dp))
-            Text(text = b.name, color = Color.White, fontWeight = FontWeight.Bold)
+            Text(text = b.name, color = HeistPalette.text, fontWeight = FontWeight.Bold)
             if (row.reserved) {
-                Text(text = "Reservado", color = Color(0xFFFF7043), style = MaterialTheme.typography.labelMedium)
+                Text(text = "Reservado", color = HeistPalette.errorSoft, style = MaterialTheme.typography.labelMedium)
             }
             Text(
                 text =
                     "Dificultad: ${b.difficulty.replaceFirstChar { ch -> if (ch.isLowerCase()) ch.titlecase(Locale.getDefault()) else ch.toString() }}",
-                color = Color.LightGray,
+                color = HeistPalette.muted,
                 style = MaterialTheme.typography.bodySmall,
             )
-            Text(text = "${b.reward} €", color = Color(0xFF4CAF50), fontWeight = FontWeight.Bold)
+            Text(text = "${b.reward} €", color = HeistPalette.positiveGreen, fontWeight = FontWeight.Bold)
         }
     }
 }
@@ -503,9 +503,9 @@ private fun DetalleBancoDialog(
 
     AlertDialog(
         onDismissRequest = onDismiss,
-        containerColor = Color(0xFF1E2333),
-        titleContentColor = Color.White,
-        textContentColor = Color.LightGray,
+        containerColor = HeistPalette.card,
+        titleContentColor = HeistPalette.text,
+        textContentColor = HeistPalette.muted,
         title = { Text(text = b.name) },
         text = {
             Column(verticalArrangement = Arrangement.spacedBy(8.dp)) {
@@ -522,7 +522,7 @@ private fun DetalleBancoDialog(
                 }
                 Text(text = "Dirección: ${b.address}")
                 Text(text = "Dificultad: $diffLabel")
-                Text(text = "Recompensa: ${b.reward} EUR", color = Color(0xFF4CAF50))
+                Text(text = "Recompensa: ${b.reward} EUR", color = HeistPalette.positiveGreen)
                 Text(text = "Disponibilidad: $disponibleTexto")
             }
         },
@@ -530,19 +530,19 @@ private fun DetalleBancoDialog(
             if (row.reserved) {
                 Row {
                     TextButton(onClick = onDismiss) {
-                        Text("Cerrar", color = Color.LightGray)
+                        Text("Cerrar", color = HeistPalette.muted)
                     }
                     TextButton(onClick = onEditar) {
-                        Text("Editar reserva", color = Color(0xFF4CAF50))
+                        Text("Editar reserva", color = HeistPalette.positiveGreen)
                     }
-                    Button(onClick = onCancelarReserva, colors = ButtonDefaults.buttonColors(containerColor = Color(0xFFD32F2F))) {
+                    Button(onClick = onCancelarReserva, colors = ButtonDefaults.buttonColors(containerColor = HeistPalette.buttonDanger)) {
                         Text("Cancelar reserva")
                     }
                 }
             } else {
                 Row {
                     TextButton(onClick = onDismiss) {
-                        Text("CERRAR", color = Color.LightGray)
+                        Text("CERRAR", color = HeistPalette.muted)
                     }
                     Button(onClick = onReservar) {
                         Text("RESERVAR")
@@ -553,7 +553,7 @@ private fun DetalleBancoDialog(
         dismissButton = {
             if (!row.reserved) {
                 TextButton(onClick = onDismiss) {
-                    Text(text = "CANCELAR", color = Color.Red)
+                    Text(text = "CANCELAR", color = HeistPalette.delete)
                 }
             }
         },

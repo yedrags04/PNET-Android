@@ -10,17 +10,15 @@ HeistCraft es una aplicación Android paródica de "reserva de bancos y utensili
 
 ## UI/UX
 ### Colores
-Usar exclusivamente los colores definidos en:
-- `app/src/main/java/com/heistcorp/heistcraft/ui/theme/Color.kt`
-- `app/src/main/java/com/heistcorp/heistcraft/ui/theme/Theme.kt`
+Fuente de verdad en `app/src/main/res/values/colors.xml`. En Compose, usar `HeistPalette` (`ui/theme/Color.kt`) o `colorResource` / `MaterialTheme.colorScheme` según el caso (`Theme.kt`).
 
-Nunca hardcodear colores.
+Nunca hardcodear colores en código.
 
 ### Tipografías
 - **DmSerifDisplay**: Títulos, headings, elementos que deban destacar (`displayLarge`, `headline*`, `title*`, `labelLarge`)
 - **Dmsans**: Texto normal, elementos interactuables, labels (`body*`, `labelMedium`, `labelSmall`)
 
-Ver `app/src/main/java/com/heistcorp/heistcraft/ui/theme/Type.kt`.
+Ver `app/src/main/kotlin/com/heistcorp/heistcraft/ui/theme/Type.kt`.
 
 ## Convenciones
 - Material 3 con tema oscuro (`darkColorScheme`)
@@ -34,10 +32,11 @@ Ver `app/src/main/java/com/heistcorp/heistcraft/ui/theme/Type.kt`.
 - Antes de commits: ejecutar `./gradlew check` si existe, o al menos verificar build
 
 ## Estructura clave
-- `app/src/main/java/com/heistcorp/heistcraft/` - Paquete principal
+- `app/src/main/kotlin/com/heistcorp/heistcraft/` - Paquete principal
   - `app/` - Estado global y App composable
   - `navigation/` - NavHost y Destination
   - `screens/` - Pantallas (BancosScreen, UtensiliosScreen, etc.)
   - `network/` - ApiClient, HeistApi (Retrofit)
   - `data/` - DTOs y parseo JSON
-  - `ui/theme/` - Color, Theme, Typography
+  - `ui/theme/` - HeistPalette, Theme, Typography
+- `app/src/main/res/values/` - `colors.xml`, `themes.xml`, `strings.xml`, `dimens.xml`

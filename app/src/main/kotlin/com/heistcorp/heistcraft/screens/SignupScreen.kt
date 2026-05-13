@@ -28,7 +28,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
+import com.heistcorp.heistcraft.ui.theme.HeistPalette
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.KeyboardType
@@ -43,10 +43,10 @@ private val fieldColors
     @Composable
     get() =
         OutlinedTextFieldDefaults.colors(
-            focusedTextColor = Color.White,
-            unfocusedTextColor = Color.White,
-            focusedLabelColor = Color(0xFFFFC107),
-            unfocusedLabelColor = Color.LightGray,
+            focusedTextColor = HeistPalette.text,
+            unfocusedTextColor = HeistPalette.text,
+            focusedLabelColor = HeistPalette.amber,
+            unfocusedLabelColor = HeistPalette.muted,
         )
 
 @Composable
@@ -80,19 +80,19 @@ fun SignupScreen(
         modifier =
             modifier
                 .fillMaxSize()
-                .background(Color(0xFF131722))
+                .background(HeistPalette.screenBackground)
                 .verticalScroll(rememberScrollState())
                 .padding(16.dp),
         verticalArrangement = Arrangement.spacedBy(12.dp),
     ) {
         IconButton(onClick = onBack) {
-            Icon(Icons.AutoMirrored.Filled.ArrowBack, contentDescription = "Volver", tint = Color.White)
+            Icon(Icons.AutoMirrored.Filled.ArrowBack, contentDescription = "Volver", tint = HeistPalette.text)
         }
-        Text("Crear cuenta", style = MaterialTheme.typography.headlineMedium, color = Color.White)
+        Text("Crear cuenta", style = MaterialTheme.typography.headlineMedium, color = HeistPalette.text)
         Text(
             stringResource(R.string.registro_subtitulo),
             style = MaterialTheme.typography.bodyMedium,
-            color = Color.LightGray,
+            color = HeistPalette.muted,
         )
         OutlinedTextField(
             value = fullName,
@@ -211,7 +211,7 @@ fun SignupScreen(
             Text(stringResource(R.string.registrarse))
         }
         TextButton(onClick = onNavigateToLogin, modifier = Modifier.align(Alignment.CenterHorizontally)) {
-            Text("¿Ya tienes cuenta? Inicia sesión", color = Color(0xFFFFC107))
+            Text("¿Ya tienes cuenta? Inicia sesión", color = HeistPalette.amber)
         }
         Spacer(Modifier.height(24.dp))
     }

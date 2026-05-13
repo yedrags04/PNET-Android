@@ -28,7 +28,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
+import com.heistcorp.heistcraft.ui.theme.HeistPalette
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.KeyboardType
@@ -41,10 +41,10 @@ private val loginFieldColors
     @Composable
     get() =
         OutlinedTextFieldDefaults.colors(
-            focusedTextColor = Color.White,
-            unfocusedTextColor = Color.White,
-            focusedLabelColor = Color(0xFFFFC107),
-            unfocusedLabelColor = Color.LightGray,
+            focusedTextColor = HeistPalette.text,
+            unfocusedTextColor = HeistPalette.text,
+            focusedLabelColor = HeistPalette.amber,
+            unfocusedLabelColor = HeistPalette.muted,
         )
 
 @Composable
@@ -62,15 +62,15 @@ fun LoginScreen(
         modifier =
             modifier
                 .fillMaxSize()
-                .background(Color(0xFF131722))
+                .background(HeistPalette.screenBackground)
                 .verticalScroll(rememberScrollState())
                 .padding(16.dp),
         verticalArrangement = Arrangement.spacedBy(16.dp),
     ) {
         IconButton(onClick = onBack) {
-            Icon(Icons.AutoMirrored.Filled.ArrowBack, contentDescription = "Volver", tint = Color.White)
+            Icon(Icons.AutoMirrored.Filled.ArrowBack, contentDescription = "Volver", tint = HeistPalette.text)
         }
-        Text("Iniciar sesión", style = MaterialTheme.typography.headlineMedium, color = Color.White)
+        Text("Iniciar sesión", style = MaterialTheme.typography.headlineMedium, color = HeistPalette.text)
         OutlinedTextField(
             value = email,
             onValueChange = {
@@ -116,7 +116,7 @@ fun LoginScreen(
             Text(stringResource(R.string.entrar))
         }
         TextButton(onClick = onNavigateToSignup, modifier = Modifier.align(Alignment.CenterHorizontally)) {
-            Text("¿No tienes cuenta? Regístrate", color = Color(0xFFFFC107))
+            Text("¿No tienes cuenta? Regístrate", color = HeistPalette.amber)
         }
         Spacer(Modifier.height(24.dp))
     }

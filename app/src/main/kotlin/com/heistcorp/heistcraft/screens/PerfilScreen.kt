@@ -20,7 +20,7 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
+import com.heistcorp.heistcraft.ui.theme.HeistPalette
 import androidx.compose.ui.res.pluralStringResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
@@ -39,25 +39,25 @@ fun PerfilScreen(
         modifier =
             modifier
                 .fillMaxSize()
-                .background(Color(0xFF131722))
+                .background(HeistPalette.screenBackground)
                 .verticalScroll(rememberScrollState())
                 .padding(16.dp),
         verticalArrangement = Arrangement.spacedBy(16.dp),
     ) {
         IconButton(onClick = onBack) {
-            Icon(Icons.AutoMirrored.Filled.ArrowBack, contentDescription = "Volver", tint = Color.White)
+            Icon(Icons.AutoMirrored.Filled.ArrowBack, contentDescription = "Volver", tint = HeistPalette.text)
         }
-        Text("Perfil", style = MaterialTheme.typography.headlineMedium, color = Color.White)
+        Text("Perfil", style = MaterialTheme.typography.headlineMedium, color = HeistPalette.text)
         if (session == null) {
             Text(
                 stringResource(R.string.perfil_no_sesion),
                 style = MaterialTheme.typography.bodyLarge,
-                color = Color.LightGray,
+                color = HeistPalette.muted,
             )
             Button(
                 onClick = onNavigateToLogin,
                 modifier = Modifier.fillMaxWidth(),
-                colors = ButtonDefaults.buttonColors(containerColor = Color(0xFF4CAF50)),
+                colors = ButtonDefaults.buttonColors(containerColor = HeistPalette.positiveGreen),
             ) {
                 Text(stringResource(R.string.ir_iniciar_sesion))
             }
@@ -105,7 +105,7 @@ fun PerfilScreen(
                     onBack()
                 },
                 modifier = Modifier.fillMaxWidth(),
-                colors = ButtonDefaults.buttonColors(containerColor = Color(0xFFB00020)),
+                colors = ButtonDefaults.buttonColors(containerColor = HeistPalette.buttonDangerDark),
             ) {
                 Text(stringResource(R.string.cerrar_sesion))
             }
@@ -127,7 +127,7 @@ private fun PerfilCampo(
         Text(
             valor,
             style = MaterialTheme.typography.bodyLarge,
-            color = Color.White,
+            color = HeistPalette.text,
         )
     }
 }

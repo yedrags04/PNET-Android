@@ -51,7 +51,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
+import com.heistcorp.heistcraft.ui.theme.HeistPalette
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
@@ -113,7 +113,7 @@ fun UtensiliosScreen(modifier: Modifier = Modifier) {
         modifier =
             modifier
                 .fillMaxSize()
-                .background(Color(0xFF131722))
+                .background(HeistPalette.screenBackground)
                 .padding(16.dp),
     ) {
         Row(
@@ -127,7 +127,7 @@ fun UtensiliosScreen(modifier: Modifier = Modifier) {
             Text(
                 text = "Catálogo de utensilios",
                 style = MaterialTheme.typography.headlineMedium,
-                color = Color.White,
+                color = HeistPalette.text,
                 fontWeight = FontWeight.Bold,
             )
 
@@ -142,14 +142,14 @@ fun UtensiliosScreen(modifier: Modifier = Modifier) {
                     Icon(
                         imageVector = Icons.Filled.ShoppingCart,
                         contentDescription = "Abrir carrito",
-                        tint = Color.White,
+                        tint = HeistPalette.text,
                     )
                 }
             }
         }
 
         Surface(
-            color = Color(0xFF1E2333),
+            color = HeistPalette.card,
             shape = MaterialTheme.shapes.medium,
             modifier =
                 Modifier
@@ -161,11 +161,11 @@ fun UtensiliosScreen(modifier: Modifier = Modifier) {
                 horizontalArrangement = Arrangement.SpaceBetween,
                 verticalAlignment = Alignment.CenterVertically,
             ) {
-                Text("Filtros", color = Color.White)
+                Text("Filtros", color = HeistPalette.text)
                 Icon(
                     imageVector = if (mostrarFiltros) Icons.Filled.KeyboardArrowUp else Icons.Filled.KeyboardArrowDown,
                     contentDescription = "Alternar filtros",
-                    tint = Color.White,
+                    tint = HeistPalette.text,
                 )
             }
         }
@@ -186,13 +186,13 @@ fun UtensiliosScreen(modifier: Modifier = Modifier) {
                     singleLine = true,
                     colors =
                         OutlinedTextFieldDefaults.colors(
-                            focusedTextColor = Color.White,
-                            unfocusedTextColor = Color.White,
+                            focusedTextColor = HeistPalette.text,
+                            unfocusedTextColor = HeistPalette.text,
                         ),
                 )
 
                 Column {
-                    Text("Precio máximo: ${filtroPrecio.toInt()} €", color = Color.White)
+                    Text("Precio máximo: ${filtroPrecio.toInt()} €", color = HeistPalette.text)
                     Slider(
                         value = filtroPrecio,
                         onValueChange = { filtroPrecio = it },
@@ -206,7 +206,7 @@ fun UtensiliosScreen(modifier: Modifier = Modifier) {
                         filtroPrecio = rangoMax
                     },
                     modifier = Modifier.fillMaxWidth(),
-                    colors = ButtonDefaults.buttonColors(containerColor = Color.DarkGray),
+                    colors = ButtonDefaults.buttonColors(containerColor = HeistPalette.neutralMid),
                 ) {
                     Text("Quitar filtros")
                 }
@@ -218,10 +218,10 @@ fun UtensiliosScreen(modifier: Modifier = Modifier) {
         when {
             cargando ->
                 Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
-                    CircularProgressIndicator(color = Color(0xFF4CAF50))
+                    CircularProgressIndicator(color = HeistPalette.positiveGreen)
                 }
             error != null && catalogo.isEmpty() ->
-                Text(error!!, color = Color(0xFFFF7043))
+                Text(error!!, color = HeistPalette.errorSoft)
             else ->
                 LazyVerticalGrid(
                     columns = GridCells.Adaptive(minSize = 150.dp),
@@ -261,7 +261,7 @@ private fun UtensilioCard(
     val url = resolveAssetUrl(utensilio.imagen)
     ElevatedCard(
         modifier = Modifier.fillMaxWidth(),
-        colors = CardDefaults.elevatedCardColors(containerColor = Color(0xFF1E2333)),
+        colors = CardDefaults.elevatedCardColors(containerColor = HeistPalette.card),
     ) {
         Column(modifier = Modifier.padding(16.dp)) {
             Box(
@@ -269,7 +269,7 @@ private fun UtensilioCard(
                     Modifier
                         .fillMaxWidth()
                         .height(90.dp)
-                        .background(Color.DarkGray),
+                        .background(HeistPalette.neutralMid),
             ) {
                 if (url.isNotBlank()) {
                     AsyncImage(
@@ -282,10 +282,10 @@ private fun UtensilioCard(
             }
             Spacer(modifier = Modifier.height(12.dp))
 
-            Text(text = utensilio.nombre, color = Color.White, fontWeight = FontWeight.Bold)
+            Text(text = utensilio.nombre, color = HeistPalette.text, fontWeight = FontWeight.Bold)
             Text(
                 text = utensilio.descripcion.orEmpty(),
-                color = Color.LightGray,
+                color = HeistPalette.muted,
                 style = MaterialTheme.typography.bodySmall,
                 maxLines = 3,
             )
@@ -297,7 +297,7 @@ private fun UtensilioCard(
                 horizontalArrangement = Arrangement.SpaceBetween,
                 verticalAlignment = Alignment.CenterVertically,
             ) {
-                Text(text = "${utensilio.precio} €", color = Color(0xFF4CAF50), fontWeight = FontWeight.Bold)
+                Text(text = "${utensilio.precio} €", color = HeistPalette.positiveGreen, fontWeight = FontWeight.Bold)
 
                 Button(
                     onClick = onAddClick,
@@ -328,7 +328,7 @@ private fun CarritoDialog(
                     .fillMaxWidth(0.9f)
                     .fillMaxHeight(0.7f),
             shape = MaterialTheme.shapes.large,
-            color = Color(0xFF1E2333),
+            color = HeistPalette.card,
         ) {
             Column(modifier = Modifier.padding(16.dp)) {
                 Row(
@@ -339,19 +339,19 @@ private fun CarritoDialog(
                     Text(
                         text = "Mi Carrito",
                         style = MaterialTheme.typography.headlineSmall,
-                        color = Color.White,
+                        color = HeistPalette.text,
                         fontWeight = FontWeight.Bold,
                     )
                     IconButton(onClick = onDismiss) {
-                        Icon(Icons.Filled.Close, contentDescription = "Cerrar", tint = Color.LightGray)
+                        Icon(Icons.Filled.Close, contentDescription = "Cerrar", tint = HeistPalette.muted)
                     }
                 }
 
-                HorizontalDivider(color = Color.DarkGray, modifier = Modifier.padding(vertical = 8.dp))
+                HorizontalDivider(color = HeistPalette.neutralMid, modifier = Modifier.padding(vertical = 8.dp))
 
                 if (articulos.isEmpty()) {
                     Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
-                        Text("No hay utensilios seleccionados todavía.", color = Color.LightGray)
+                        Text("No hay utensilios seleccionados todavía.", color = HeistPalette.muted)
                     }
                 } else {
                     LazyColumn(
@@ -364,17 +364,17 @@ private fun CarritoDialog(
                                 modifier =
                                     Modifier
                                         .fillMaxWidth()
-                                        .background(Color(0xFF2A3040), shape = MaterialTheme.shapes.small)
+                                        .background(HeistPalette.divider, shape = MaterialTheme.shapes.small)
                                         .padding(12.dp),
                                 horizontalArrangement = Arrangement.SpaceBetween,
                                 verticalAlignment = Alignment.CenterVertically,
                             ) {
                                 Column {
-                                    Text(item.nombre, color = Color.White)
-                                    Text("${item.precio} €", color = Color(0xFF4CAF50))
+                                    Text(item.nombre, color = HeistPalette.text)
+                                    Text("${item.precio} €", color = HeistPalette.positiveGreen)
                                 }
                                 IconButton(onClick = { onRemoveItem(item) }) {
-                                    Icon(Icons.Filled.Close, contentDescription = "Quitar", tint = Color.Red)
+                                    Icon(Icons.Filled.Close, contentDescription = "Quitar", tint = HeistPalette.delete)
                                 }
                             }
                         }
@@ -382,19 +382,19 @@ private fun CarritoDialog(
 
                     val total = articulos.sumOf { it.precio }
                     Column(modifier = Modifier.fillMaxWidth()) {
-                        HorizontalDivider(color = Color.DarkGray, modifier = Modifier.padding(vertical = 8.dp))
+                        HorizontalDivider(color = HeistPalette.neutralMid, modifier = Modifier.padding(vertical = 8.dp))
                         Row(
                             modifier = Modifier.fillMaxWidth(),
                             horizontalArrangement = Arrangement.SpaceBetween,
                         ) {
-                            Text("Total:", color = Color.White, fontWeight = FontWeight.Bold)
-                            Text("$total €", color = Color(0xFF4CAF50), fontWeight = FontWeight.Bold)
+                            Text("Total:", color = HeistPalette.text, fontWeight = FontWeight.Bold)
+                            Text("$total €", color = HeistPalette.positiveGreen, fontWeight = FontWeight.Bold)
                         }
                         Spacer(modifier = Modifier.height(16.dp))
                         Button(
                             onClick = onCheckout,
                             modifier = Modifier.fillMaxWidth(),
-                            colors = ButtonDefaults.buttonColors(containerColor = Color(0xFF4CAF50)),
+                            colors = ButtonDefaults.buttonColors(containerColor = HeistPalette.positiveGreen),
                         ) {
                             Text("Confirmar Pedido")
                         }

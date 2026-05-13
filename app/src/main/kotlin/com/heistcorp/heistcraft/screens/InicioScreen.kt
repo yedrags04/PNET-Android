@@ -47,7 +47,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
+import com.heistcorp.heistcraft.ui.theme.HeistPalette
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.platform.LocalContext
@@ -103,7 +103,7 @@ fun InicioScreen(
         modifier =
             modifier
                 .fillMaxSize()
-                .background(Color(0xFF131722))
+                .background(HeistPalette.screenBackground)
                 .verticalScroll(rememberScrollState())
                 .padding(vertical = 16.dp),
         verticalArrangement = Arrangement.spacedBy(32.dp),
@@ -145,7 +145,7 @@ fun InicioScreen(
             Text(
                 text = "Expertos en robos desde 1942",
                 style = MaterialTheme.typography.headlineLarge,
-                color = Color.White,
+                color = HeistPalette.text,
                 fontWeight = FontWeight.Bold,
                 textAlign = TextAlign.Center,
                 modifier = Modifier.fillMaxWidth(),
@@ -153,7 +153,7 @@ fun InicioScreen(
 
             ElevatedCard(
                 modifier = Modifier.fillMaxWidth(),
-                colors = CardDefaults.elevatedCardColors(containerColor = Color(0xFF1E2333)),
+                colors = CardDefaults.elevatedCardColors(containerColor = HeistPalette.card),
             ) {
                 Column(
                     modifier = Modifier.padding(16.dp),
@@ -168,8 +168,8 @@ fun InicioScreen(
                         singleLine = true,
                         colors =
                             OutlinedTextFieldDefaults.colors(
-                                focusedTextColor = Color.White,
-                                unfocusedTextColor = Color.White,
+                                focusedTextColor = HeistPalette.text,
+                                unfocusedTextColor = HeistPalette.text,
                             ),
                     )
 
@@ -183,9 +183,9 @@ fun InicioScreen(
                             enabled = false,
                             colors =
                                 OutlinedTextFieldDefaults.colors(
-                                    disabledTextColor = Color.White,
-                                    disabledBorderColor = Color.Gray,
-                                    disabledPlaceholderColor = Color.LightGray,
+                                    disabledTextColor = HeistPalette.text,
+                                    disabledBorderColor = HeistPalette.muted,
+                                    disabledPlaceholderColor = HeistPalette.muted,
                                 ),
                         )
                     }
@@ -203,20 +203,20 @@ fun InicioScreen(
                             trailingIcon = { Icon(Icons.Filled.ArrowDropDown, contentDescription = null) },
                             colors =
                                 OutlinedTextFieldDefaults.colors(
-                                    disabledTextColor = Color.White,
-                                    disabledBorderColor = Color.Gray,
-                                    disabledTrailingIconColor = Color.White,
+                                    disabledTextColor = HeistPalette.text,
+                                    disabledBorderColor = HeistPalette.muted,
+                                    disabledTrailingIconColor = HeistPalette.text,
                                 ),
                         )
                         DropdownMenu(
                             expanded = expandirBotin,
                             onDismissRequest = { expandirBotin = false },
-                            modifier = Modifier.background(Color(0xFF1E2333)),
+                            modifier = Modifier.background(HeistPalette.card),
                         ) {
                             val opcionesBotin = listOf("Efectivo", "Lingotes de Oro", "Obras de Arte")
                             opcionesBotin.forEach { seleccion ->
                                 DropdownMenuItem(
-                                    text = { Text(seleccion, color = Color.White) },
+                                    text = { Text(seleccion, color = HeistPalette.text) },
                                     onClick = {
                                         tipoBotin = seleccion
                                         expandirBotin = false
@@ -232,7 +232,7 @@ fun InicioScreen(
                             Modifier
                                 .fillMaxWidth()
                                 .height(50.dp),
-                        colors = ButtonDefaults.buttonColors(containerColor = Color(0xFF4CAF50)),
+                        colors = ButtonDefaults.buttonColors(containerColor = HeistPalette.positiveGreen),
                     ) {
                         Text("Buscar", fontSize = MaterialTheme.typography.titleMedium.fontSize)
                     }
@@ -244,7 +244,7 @@ fun InicioScreen(
             Text(
                 text = "Top bancos",
                 style = MaterialTheme.typography.titleLarge,
-                color = Color.White,
+                color = HeistPalette.text,
                 fontWeight = FontWeight.Bold,
                 modifier = Modifier.padding(horizontal = 16.dp),
             )
@@ -258,12 +258,12 @@ fun InicioScreen(
                                 .height(160.dp),
                         contentAlignment = Alignment.Center,
                     ) {
-                        CircularProgressIndicator(color = Color(0xFF4CAF50))
+                        CircularProgressIndicator(color = HeistPalette.positiveGreen)
                     }
                 bancosCarrusel.isEmpty() ->
                     Text(
                         "No se pudieron cargar los bancos. Comprueba que el servidor HeistCraft esté en marcha.",
-                        color = Color.LightGray,
+                        color = HeistPalette.muted,
                         modifier = Modifier.padding(horizontal = 16.dp),
                     )
                 else ->
@@ -278,7 +278,7 @@ fun InicioScreen(
                                     Modifier
                                         .width(260.dp)
                                         .height(160.dp),
-                                colors = CardDefaults.elevatedCardColors(containerColor = Color(0xFF1E2333)),
+                                colors = CardDefaults.elevatedCardColors(containerColor = HeistPalette.card),
                             ) {
                                 Box(modifier = Modifier.fillMaxSize()) {
                                     if (url.isNotBlank()) {
@@ -295,14 +295,14 @@ fun InicioScreen(
                                     }
                                     Text(
                                         text = banco.name,
-                                        color = Color.White,
+                                        color = HeistPalette.text,
                                         fontWeight = FontWeight.Bold,
                                         style = MaterialTheme.typography.titleMedium,
                                         textAlign = TextAlign.Center,
                                         modifier =
                                             Modifier
                                                 .fillMaxSize()
-                                                .background(Color(0x66000000))
+                                                .background(HeistPalette.scrim)
                                                 .padding(16.dp)
                                                 .align(Alignment.Center),
                                     )

@@ -29,7 +29,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
+import com.heistcorp.heistcraft.ui.theme.HeistPalette
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
@@ -100,7 +100,7 @@ fun FaqScreen(onBack: () -> Unit, modifier: Modifier = Modifier) {
         modifier =
             modifier
                 .fillMaxSize()
-                .background(Color(0xFF131722))
+                .background(HeistPalette.screenBackground)
                 .verticalScroll(rememberScrollState())
                 .padding(16.dp),
         verticalArrangement = Arrangement.spacedBy(16.dp),
@@ -113,13 +113,13 @@ fun FaqScreen(onBack: () -> Unit, modifier: Modifier = Modifier) {
                 Icon(
                     imageVector = Icons.AutoMirrored.Filled.ArrowBack,
                     contentDescription = "Volver",
-                    tint = Color.White,
+                    tint = HeistPalette.text,
                 )
             }
             Text(
                 "Preguntas frecuentes",
                 style = MaterialTheme.typography.headlineSmall,
-                color = Color.White,
+                color = HeistPalette.text,
                 fontWeight = FontWeight.Bold,
             )
         }
@@ -127,10 +127,10 @@ fun FaqScreen(onBack: () -> Unit, modifier: Modifier = Modifier) {
         Text(
             "Todo lo que necesitas saber sobre las operaciones en HeistCraft",
             style = MaterialTheme.typography.bodyMedium,
-            color = Color.LightGray,
+            color = HeistPalette.muted,
         )
 
-        HorizontalDivider(color = Color.DarkGray)
+        HorizontalDivider(color = HeistPalette.neutralMid)
 
         FaqExpandableMapItem(
             question = "¿Dónde encontrarnos?",
@@ -139,12 +139,12 @@ fun FaqScreen(onBack: () -> Unit, modifier: Modifier = Modifier) {
             },
         )
 
-        HorizontalDivider(color = Color(0xFF2A3040))
+        HorizontalDivider(color = HeistPalette.divider)
 
         textEntries.forEachIndexed { index, entry ->
             FaqExpandableTextItem(question = entry.question, answer = entry.answer)
             if (index < textEntries.lastIndex) {
-                HorizontalDivider(color = Color(0xFF2A3040))
+                HorizontalDivider(color = HeistPalette.divider)
             }
         }
     }
@@ -159,7 +159,7 @@ private fun FaqExpandableTextItem(question: String, answer: String, modifier: Mo
         onToggle = { expanded = !expanded },
         modifier = modifier,
     ) {
-        Text(answer, color = Color.LightGray, style = MaterialTheme.typography.bodyMedium)
+        Text(answer, color = HeistPalette.muted, style = MaterialTheme.typography.bodyMedium)
     }
 }
 
@@ -175,7 +175,7 @@ private fun FaqExpandableMapItem(question: String, onOpenMap: () -> Unit, modifi
         Column(verticalArrangement = Arrangement.spacedBy(12.dp)) {
             Text(
                 "Nuestra base logística está en la Escuela Superior de Ingeniería (Cádiz).",
-                color = Color.LightGray,
+                color = HeistPalette.muted,
                 style = MaterialTheme.typography.bodyMedium,
             )
             Button(onClick = onOpenMap) {
@@ -206,14 +206,14 @@ private fun FaqExpandableShell(
             Text(
                 question,
                 style = MaterialTheme.typography.titleMedium,
-                color = Color(0xFFFFC107),
+                color = HeistPalette.amber,
                 fontWeight = FontWeight.SemiBold,
                 modifier = Modifier.weight(1f),
             )
             Icon(
                 imageVector = if (expanded) Icons.Filled.ExpandLess else Icons.Filled.ExpandMore,
                 contentDescription = null,
-                tint = Color.White,
+                tint = HeistPalette.text,
             )
         }
         if (expanded) {

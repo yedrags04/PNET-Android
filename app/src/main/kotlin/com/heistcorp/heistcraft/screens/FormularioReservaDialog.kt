@@ -45,7 +45,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.graphics.Color
+import com.heistcorp.heistcraft.ui.theme.HeistPalette
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
@@ -194,7 +194,7 @@ private fun FormularioReservaDialogContent(
                     .fillMaxWidth(0.95f)
                     .fillMaxHeight(0.92f),
             shape = MaterialTheme.shapes.large,
-            color = Color(0xFF1E2333),
+            color = HeistPalette.card,
         ) {
             Column(
                 modifier =
@@ -206,16 +206,16 @@ private fun FormularioReservaDialogContent(
                 Text(
                     text = "Formulario de Operación",
                     style = MaterialTheme.typography.headlineSmall,
-                    color = Color.White,
+                    color = HeistPalette.text,
                     fontWeight = FontWeight.Bold,
                 )
                 Text(
                     text = "Completa los detalles para confirmar tu reserva",
-                    color = Color.LightGray,
+                    color = HeistPalette.muted,
                     style = MaterialTheme.typography.bodySmall,
                 )
 
-                HorizontalDivider(color = Color.DarkGray)
+                HorizontalDivider(color = HeistPalette.divider)
 
                 SeccionTitulo("Información del Líder")
 
@@ -314,7 +314,7 @@ private fun FormularioReservaDialogContent(
                     DropdownMenu(
                         expanded = expandirRiesgo,
                         onDismissRequest = { expandirRiesgo = false },
-                        modifier = Modifier.background(Color(0xFF1E2333)),
+                        modifier = Modifier.background(HeistPalette.card),
                     ) {
                         listOf(
                             "bajo" to "Bajo - Operación Segura",
@@ -322,7 +322,7 @@ private fun FormularioReservaDialogContent(
                             "alto" to "Alto - Muy Peligroso",
                         ).forEach { (api, label) ->
                             DropdownMenuItem(
-                                text = { Text(label, color = Color.White) },
+                                text = { Text(label, color = HeistPalette.text) },
                                 onClick = {
                                     riskLevelApi = api
                                     expandirRiesgo = false
@@ -377,7 +377,7 @@ private fun FormularioReservaDialogContent(
                     }
                 }
 
-                HorizontalDivider(color = Color.DarkGray)
+                HorizontalDivider(color = HeistPalette.divider)
 
                 CheckboxConTexto(
                     texto = "Asumo los riesgos de esta operación *",
@@ -407,7 +407,7 @@ private fun FormularioReservaDialogContent(
                     verticalAlignment = Alignment.CenterVertically,
                 ) {
                     TextButton(onClick = onDismiss) {
-                        Text("Cancelar", color = Color.LightGray)
+                        Text("Cancelar", color = HeistPalette.muted)
                     }
                     Spacer(modifier = Modifier.width(8.dp))
                     Button(
@@ -445,8 +445,8 @@ private fun FormularioReservaDialogContent(
                         enabled = formularioValido,
                         colors =
                             ButtonDefaults.buttonColors(
-                                containerColor = Color(0xFF4CAF50),
-                                disabledContainerColor = Color.DarkGray,
+                                containerColor = HeistPalette.positiveGreen,
+                                disabledContainerColor = HeistPalette.divider,
                             ),
                     ) {
                         Text("Confirmar y Reservar")
@@ -487,14 +487,14 @@ private fun FormularioReservaDialogContent(
         Dialog(onDismissRequest = { showTimePicker = false }) {
             Surface(
                 shape = MaterialTheme.shapes.extraLarge,
-                color = Color(0xFF1E2333),
+                color = HeistPalette.card,
                 modifier = Modifier.padding(16.dp),
             ) {
                 Column(
                     modifier = Modifier.padding(24.dp),
                     horizontalAlignment = Alignment.CenterHorizontally,
                 ) {
-                    Text("Selecciona la hora", color = Color.White, modifier = Modifier.padding(bottom = 20.dp))
+                    Text("Selecciona la hora", color = HeistPalette.text, modifier = Modifier.padding(bottom = 20.dp))
                     TimePicker(state = timePickerState)
                     Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.End) {
                         TextButton(onClick = { showTimePicker = false }) {
@@ -524,18 +524,18 @@ private fun FormularioReservaDialogContent(
 @Composable
 private fun fieldColors() =
     OutlinedTextFieldDefaults.colors(
-        focusedTextColor = Color.White,
-        unfocusedTextColor = Color.White,
-        focusedLabelColor = Color.LightGray,
-        unfocusedLabelColor = Color.LightGray,
-        cursorColor = Color.White,
+        focusedTextColor = HeistPalette.text,
+        unfocusedTextColor = HeistPalette.text,
+        focusedLabelColor = HeistPalette.muted,
+        unfocusedLabelColor = HeistPalette.muted,
+        cursorColor = HeistPalette.text,
     )
 
 @Composable
 fun SeccionTitulo(titulo: String) {
     Text(
         text = titulo,
-        color = Color(0xFFFFC107),
+        color = HeistPalette.amber,
         style = MaterialTheme.typography.titleMedium,
         fontWeight = FontWeight.Bold,
         modifier = Modifier.padding(top = 8.dp, bottom = 4.dp),
@@ -563,7 +563,7 @@ fun CheckboxConTexto(
         )
         Text(
             text = texto,
-            color = Color.White,
+            color = HeistPalette.text,
             style = MaterialTheme.typography.bodyMedium,
         )
     }

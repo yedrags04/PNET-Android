@@ -13,6 +13,33 @@
     <color name="heist_text">#F4F4F5</color>
     <color name="heist_muted">#9F9FA9</color>
 
+    <!-- Fondos y .card  -->
+    <color name="heist_screen_background">#18181B</color>
+    <color name="heist_card">#27272A</color>
+    <!-- Separadores / bordes suaves -->
+    <color name="heist_divider">#36363F</color>
+
+    <!-- Derivados  -->
+    <color name="heist_scrim">#66000000</color>
+    <color name="heist_scrim_cart">#80000000</color>
+    <!-- dialog[open]::backdrop background-color: rgba(0, 0, 0, 0.8) -->
+    <color name="heist_scrim_modal">#CC000000</color>
+    <!-- .form-group input:focus box-shadow y mezclas FAQ con accent -->
+    <color name="heist_accent_focus_ring">#33FDC700</color>
+    <color name="heist_accent_glow_soft">#26FDC700</color>
+    <!-- .panel-header border-bottom: rgba(255, 255, 255, 0.2) -->
+    <color name="heist_border_on_raised">#33FFFFFF</color>
+
+    <!-- Acciones y estados  -->
+    <color name="heist_positive_green">#4CAF50</color>
+    <color name="heist_error_soft">#FF7043</color>
+    <color name="heist_button_danger">#D32F2F</color>
+    <color name="heist_button_danger_dark">#B00020</color>
+    <color name="heist_amber">#FFC107</color>
+    <color name="heist_delete">#FF5252</color>
+
+    <color name="heist_neutral_mid">#444444</color>
+
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
 </resources>

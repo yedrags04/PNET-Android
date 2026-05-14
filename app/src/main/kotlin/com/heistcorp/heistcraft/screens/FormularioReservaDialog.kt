@@ -260,9 +260,10 @@ private fun FormularioReservaDialogContent(
                 )
 
                 Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
-                    Box(modifier = Modifier
-                        .weight(1f)
-                        .clickable { showDatePicker = true }) {
+                    Box(
+                        modifier = Modifier
+                            .weight(1f)
+                            .clickable { showDatePicker = true }) {
                         OutlinedTextField(
                             value = fechaDisplay,
                             onValueChange = { },
@@ -274,9 +275,10 @@ private fun FormularioReservaDialogContent(
                             colors = fieldColors(),
                         )
                     }
-                    Box(modifier = Modifier
-                        .weight(1f)
-                        .clickable { showTimePicker = true }) {
+                    Box(
+                        modifier = Modifier
+                            .weight(1f)
+                            .clickable { showTimePicker = true }) {
                         OutlinedTextField(
                             value = horaTexto,
                             onValueChange = { },

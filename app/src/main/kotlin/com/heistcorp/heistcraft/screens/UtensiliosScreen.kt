@@ -17,25 +17,29 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.items
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Close
 import androidx.compose.material.icons.filled.ShoppingCart
-import androidx.compose.material3.Badge
-import androidx.compose.material3.BadgedBox
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ElevatedCard
+import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.OutlinedTextFieldDefaults
+import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Slider
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
+import androidx.compose.material3.TopAppBar
+import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
@@ -63,6 +67,7 @@ import com.heistcorp.heistcraft.screens.utensilios.UtensiliosViewModelFactory
 import com.heistcorp.heistcraft.ui.theme.HeistPalette
 import com.heistcorp.heistcraft.util.resolveAssetUrl
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun UtensiliosScreen(modifier: Modifier = Modifier) {
     val context = LocalContext.current
@@ -106,119 +111,109 @@ fun UtensiliosScreen(modifier: Modifier = Modifier) {
         }
     }
 
-    Column(
-        modifier =
-            modifier
-                .fillMaxSize()
-                .background(HeistPalette.screenBackground)
-                .padding(16.dp),
-    ) {
-        Row(
-            modifier =
-                Modifier
-                    .fillMaxWidth()
-                    .padding(bottom = 16.dp),
-            horizontalArrangement = Arrangement.SpaceBetween,
-            verticalAlignment = Alignment.CenterVertically,
-        ) {
-            Text(
-                text = "Catálogo de utensilios",
-                style = MaterialTheme.typography.headlineMedium,
-                color = HeistPalette.text,
-                fontWeight = FontWeight.Bold,
-            )
-
-            BadgedBox(
-                badge = {
-                    if (carritoItems.isNotEmpty()) {
-                        Badge { Text(carritoItems.size.toString()) }
+    Scaffold(
+        topBar = {
+            TopAppBar(
+                title = { Text("Catálogo de utensilios") },
+                colors = TopAppBarDefaults.topAppBarColors(
+                    containerColor = MaterialTheme.colorScheme.secondaryContainer,
+                ),
+                actions = {
+                    IconButton(onClick = { mostrarCarrito = true }) {
+                        Icon(
+                            imageVector = Icons.Filled.ShoppingCart,
+                            contentDescription = "Abrir carrito",
+                            tint = HeistPalette.text,
+                        )
                     }
-                },
+                }
+            )
+        }
+    ) { innerPadding ->
+        Column(
+            modifier =
+                modifier
+                    .fillMaxSize()
+                    .verticalScroll(rememberScrollState())
+                    .padding(innerPadding)
+                    .padding(16.dp)
+        ) {
+            ExpandableFilterSection(
+                expanded = mostrarFiltros,
+                onToggle = { mostrarFiltros = !mostrarFiltros },
             ) {
-                IconButton(onClick = { mostrarCarrito = true }) {
-                    Icon(
-                        imageVector = Icons.Filled.ShoppingCart,
-                        contentDescription = "Abrir carrito",
-                        tint = HeistPalette.text,
+                OutlinedTextField(
+                    value = textoBusqueda,
+                    onValueChange = { textoBusqueda = it },
+                    label = { Text("Buscar por nombre o descripción") },
+                    modifier = Modifier.fillMaxWidth(),
+                    singleLine = true,
+                    colors =
+                        OutlinedTextFieldDefaults.colors(
+                            focusedTextColor = HeistPalette.text,
+                            unfocusedTextColor = HeistPalette.text,
+                        ),
+                )
+
+                Column {
+                    Text("Precio máximo: ${filtroPrecio.toInt()} €", color = HeistPalette.text)
+                    Slider(
+                        value = filtroPrecio,
+                        onValueChange = { filtroPrecio = it },
+                        valueRange = 0f..rangoMax,
                     )
                 }
-            }
-        }
 
-        ExpandableFilterSection(
-            expanded = mostrarFiltros,
-            onToggle = { mostrarFiltros = !mostrarFiltros },
-        ) {
-            OutlinedTextField(
-                value = textoBusqueda,
-                onValueChange = { textoBusqueda = it },
-                label = { Text("Buscar por nombre o descripción") },
-                modifier = Modifier.fillMaxWidth(),
-                singleLine = true,
-                colors =
-                    OutlinedTextFieldDefaults.colors(
-                        focusedTextColor = HeistPalette.text,
-                        unfocusedTextColor = HeistPalette.text,
-                    ),
-            )
-
-            Column {
-                Text("Precio máximo: ${filtroPrecio.toInt()} €", color = HeistPalette.text)
-                Slider(
-                    value = filtroPrecio,
-                    onValueChange = { filtroPrecio = it },
-                    valueRange = 0f..rangoMax,
-                )
-            }
-
-            Button(
-                onClick = {
-                    textoBusqueda = ""
-                    filtroPrecio = rangoMax
-                },
-                modifier = Modifier.fillMaxWidth(),
-                colors = ButtonDefaults.buttonColors(containerColor = HeistPalette.accent),
-            ) {
-                Text("Quitar filtros")
-            }
-        }
-
-        Spacer(modifier = Modifier.height(16.dp))
-
-        when {
-            uiState.cargando ->
-                Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
-                    CircularProgressIndicator(color = HeistPalette.positiveGreen)
-                }
-
-            uiState.error != null && uiState.catalogo.isEmpty() ->
-                Column(verticalArrangement = Arrangement.spacedBy(8.dp)) {
-                    Text(uiState.error.orEmpty(), color = HeistPalette.errorSoft)
-                    Button(onClick = viewModel::refresh) {
-                        Text("Reintentar")
-                    }
-                }
-
-            else ->
-                LazyVerticalGrid(
-                    columns = GridCells.Adaptive(minSize = 150.dp),
-                    contentPadding = PaddingValues(bottom = 16.dp),
-                    verticalArrangement = Arrangement.spacedBy(12.dp),
-                    horizontalArrangement = Arrangement.spacedBy(12.dp),
+                Button(
+                    onClick = {
+                        textoBusqueda = ""
+                        filtroPrecio = rangoMax
+                    },
+                    modifier = Modifier.fillMaxWidth(),
+                    colors = ButtonDefaults.buttonColors(containerColor = HeistPalette.accent),
                 ) {
-                    items(filtrados, key = { it.id }) { utensilio ->
-                        UtensilioCard(utensilio = utensilio) {
-                            carritoItems.add(utensilio)
-                            Toast.makeText(
-                                context,
-                                "Añadido: ${utensilio.nombre}",
-                                Toast.LENGTH_SHORT
-                            ).show()
+                    Text("Quitar filtros")
+                }
+            }
+
+            Spacer(modifier = Modifier.height(16.dp))
+
+            when {
+                uiState.cargando ->
+                    Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
+                        CircularProgressIndicator(color = HeistPalette.positiveGreen)
+                    }
+
+                uiState.error != null && uiState.catalogo.isEmpty() ->
+                    Column(verticalArrangement = Arrangement.spacedBy(8.dp)) {
+                        Text(uiState.error.orEmpty(), color = HeistPalette.errorSoft)
+                        Button(onClick = viewModel::refresh) {
+                            Text("Reintentar")
                         }
                     }
-                }
+
+                else ->
+                    LazyVerticalGrid(
+                        columns = GridCells.Adaptive(minSize = 150.dp),
+                        contentPadding = PaddingValues(bottom = 16.dp),
+                        verticalArrangement = Arrangement.spacedBy(12.dp),
+                        horizontalArrangement = Arrangement.spacedBy(12.dp),
+                    ) {
+                        items(filtrados, key = { it.id }) { utensilio ->
+                            UtensilioCard(utensilio = utensilio) {
+                                carritoItems.add(utensilio)
+                                Toast.makeText(
+                                    context,
+                                    "Añadido: ${utensilio.nombre}",
+                                    Toast.LENGTH_SHORT
+                                ).show()
+                            }
+                        }
+                    }
+            }
         }
     }
+
 
     if (mostrarCarrito) {
         CarritoDialog(

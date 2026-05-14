@@ -2,7 +2,6 @@ package com.heistcorp.heistcraft.screens
 
 import android.content.Intent
 import android.net.Uri
-import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -13,15 +12,17 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material.icons.filled.ExpandLess
 import androidx.compose.material.icons.filled.ExpandMore
 import androidx.compose.material3.Button
+import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
-import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
+import androidx.compose.material3.TopAppBar
+import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -36,6 +37,7 @@ import com.heistcorp.heistcraft.ui.theme.HeistPalette
 
 private data class FaqTextEntry(val question: String, val answer: String)
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun FaqScreen(onBack: () -> Unit, modifier: Modifier = Modifier) {
     val context = LocalContext.current
@@ -96,58 +98,52 @@ fun FaqScreen(onBack: () -> Unit, modifier: Modifier = Modifier) {
             )
         }
 
-    Column(
-        modifier =
-            modifier
-                .fillMaxSize()
-                .background(HeistPalette.screenBackground)
-                .verticalScroll(rememberScrollState())
-                .padding(16.dp),
-        verticalArrangement = Arrangement.spacedBy(16.dp),
-    ) {
-        Row(
-            modifier = Modifier.fillMaxWidth(),
-            verticalAlignment = Alignment.CenterVertically,
-        ) {
-            IconButton(onClick = onBack) {
-                Icon(
-                    imageVector = Icons.AutoMirrored.Filled.ArrowBack,
-                    contentDescription = "Volver",
-                    tint = HeistPalette.text,
-                )
-            }
-            Text(
-                "Preguntas frecuentes",
-                style = MaterialTheme.typography.headlineSmall,
-                color = HeistPalette.text,
-                fontWeight = FontWeight.Bold,
+    Scaffold(
+        topBar = {
+            TopAppBar(
+                title = { Text("Preguntas frecuentes") },
+                colors = TopAppBarDefaults.topAppBarColors(
+                    containerColor = MaterialTheme.colorScheme.secondaryContainer,
+                ),
             )
         }
+    ) { innerPadding ->
 
-        Text(
-            "Todo lo que necesitas saber sobre las operaciones en HeistCraft",
-            style = MaterialTheme.typography.bodyMedium,
-            color = HeistPalette.muted,
-        )
+        Column(
+            modifier =
+                modifier
+                    .fillMaxSize()
+                    .verticalScroll(rememberScrollState())
+                    .padding(innerPadding)
+                    .padding(16.dp),
+            verticalArrangement = Arrangement.spacedBy(16.dp),
+        ) {
+            Text(
+                "Todo lo que necesitas saber sobre las operaciones en HeistCraft",
+                style = MaterialTheme.typography.bodyMedium,
+                color = HeistPalette.muted,
+            )
 
-        HorizontalDivider(color = HeistPalette.neutralMid)
+            HorizontalDivider(color = HeistPalette.neutralMid)
 
-        FaqExpandableMapItem(
-            question = "¿Dónde encontrarnos?",
-            onOpenMap = {
-                context.startActivity(Intent(Intent.ACTION_VIEW, Uri.parse(mapUrl)))
-            },
-        )
+            FaqExpandableMapItem(
+                question = "¿Dónde encontrarnos?",
+                onOpenMap = {
+                    context.startActivity(Intent(Intent.ACTION_VIEW, Uri.parse(mapUrl)))
+                },
+            )
 
-        HorizontalDivider(color = HeistPalette.divider)
+            HorizontalDivider(color = HeistPalette.divider)
 
-        textEntries.forEachIndexed { index, entry ->
-            FaqExpandableTextItem(question = entry.question, answer = entry.answer)
-            if (index < textEntries.lastIndex) {
-                HorizontalDivider(color = HeistPalette.divider)
+            textEntries.forEachIndexed { index, entry ->
+                FaqExpandableTextItem(question = entry.question, answer = entry.answer)
+                if (index < textEntries.lastIndex) {
+                    HorizontalDivider(color = HeistPalette.divider)
+                }
             }
         }
     }
+
 }
 
 @Composable

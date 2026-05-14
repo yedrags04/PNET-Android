@@ -1,7 +1,7 @@
 package com.heistcorp.heistcraft.navigation
 
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.automirrored.filled.HelpOutline
+import androidx.compose.material.icons.automirrored.filled.Help
 import androidx.compose.material.icons.automirrored.filled.List
 import androidx.compose.material.icons.filled.AccountCircle
 import androidx.compose.material.icons.filled.AttachMoney
@@ -70,7 +70,7 @@ sealed class Destination(
     data object Faq : Destination(
         route = "faq",
         label = "FAQ",
-        icon = Icons.AutoMirrored.Filled.HelpOutline,
+        icon = Icons.AutoMirrored.Filled.Help,
         contentDescription = "Preguntas frecuentes",
     )
 

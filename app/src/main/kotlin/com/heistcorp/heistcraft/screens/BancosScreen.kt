@@ -16,6 +16,8 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.items
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowDropDown
 import androidx.compose.material3.AlertDialog
@@ -31,9 +33,12 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.OutlinedTextFieldDefaults
+import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Slider
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
+import androidx.compose.material3.TopAppBar
+import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
@@ -61,6 +66,7 @@ import com.heistcorp.heistcraft.ui.theme.HeistPalette
 import com.heistcorp.heistcraft.util.resolveAssetUrl
 import java.util.Locale
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun BancosScreen(modifier: Modifier = Modifier) {
     val context = LocalContext.current
@@ -108,170 +114,186 @@ fun BancosScreen(modifier: Modifier = Modifier) {
             }
         }
 
-    Column(
-        modifier =
-            modifier
-                .fillMaxSize()
-                .background(HeistPalette.screenBackground)
-                .padding(16.dp),
-    ) {
-        Text(
-            text = "Bancos disponibles",
-            style = MaterialTheme.typography.headlineMedium,
-            color = HeistPalette.text,
-            fontWeight = FontWeight.Bold,
-            modifier = Modifier.padding(bottom = 16.dp),
-        )
-
-        ExpandableFilterSection(
-            expanded = mostrarFiltros,
-            onToggle = { mostrarFiltros = !mostrarFiltros },
-        ) {
-            OutlinedTextField(
-                value = filtroLocalizacion,
-                onValueChange = { filtroLocalizacion = it },
-                label = { Text("Localización (Ej: Madrid)") },
-                modifier = Modifier.fillMaxWidth(),
-                colors = filterFieldColors(),
+    Scaffold(
+        topBar = {
+            TopAppBar(
+                title = { Text("Bancos disponibles") },
+                colors = TopAppBarDefaults.topAppBarColors(
+                    containerColor = MaterialTheme.colorScheme.secondaryContainer,
+                ),
             )
-
-            Box(modifier = Modifier.fillMaxWidth()) {
-                OutlinedTextField(
-                    value =
-                        when (filtroDificultad) {
-                            "facil" -> "Fácil"
-                            "media" -> "Media"
-                            "alta" -> "Alta"
-                            else -> "Todos"
-                        },
-                    onValueChange = {},
-                    label = { Text("Dificultad") },
-                    modifier =
-                        Modifier
-                            .fillMaxWidth()
-                            .clickable { expandirDificultad = true },
-                    readOnly = true,
-                    enabled = false,
-                    trailingIcon = { Icon(Icons.Filled.ArrowDropDown, contentDescription = null) },
-                    colors = filterFieldColors(),
-                )
-                DropdownMenu(
-                    expanded = expandirDificultad,
-                    onDismissRequest = { expandirDificultad = false },
-                    modifier = Modifier.background(HeistPalette.card),
-                ) {
-                    listOf(
-                        "" to "Todos",
-                        "facil" to "Fácil",
-                        "media" to "Media",
-                        "alta" to "Alta",
-                    ).forEach { (value, label) ->
-                        DropdownMenuItem(
-                            text = { Text(label, color = HeistPalette.text) },
-                            onClick = {
-                                filtroDificultad = value
-                                expandirDificultad = false
-                            },
-                        )
-                    }
-                }
-            }
-
-            Column {
-                Text("Dinero a ganar: ${filtroRecompensa.toInt()} €", color = HeistPalette.text)
-                Slider(
-                    value = filtroRecompensa,
-                    onValueChange = { filtroRecompensa = it },
-                    valueRange = 0f..1000f,
-                )
-            }
-
-            Box(modifier = Modifier.fillMaxWidth()) {
-                OutlinedTextField(
-                    value =
-                        when (filtroDisponibilidad) {
-                            "si" -> "Sí (Disponible)"
-                            "no" -> "No (Ocupado)"
-                            else -> "Todos"
-                        },
-                    onValueChange = {},
-                    label = { Text("Disponibilidad") },
-                    modifier =
-                        Modifier
-                            .fillMaxWidth()
-                            .clickable { expandirDisponibilidad = true },
-                    readOnly = true,
-                    enabled = false,
-                    trailingIcon = { Icon(Icons.Filled.ArrowDropDown, contentDescription = null) },
-                    colors = filterFieldColors(),
-                )
-                DropdownMenu(
-                    expanded = expandirDisponibilidad,
-                    onDismissRequest = { expandirDisponibilidad = false },
-                    modifier = Modifier.background(HeistPalette.card),
-                ) {
-                    listOf(
-                        "todos" to "Todos",
-                        "si" to "Sí (Disponible)",
-                        "no" to "No (Ocupado)",
-                    ).forEach { (value, label) ->
-                        DropdownMenuItem(
-                            text = { Text(label, color = HeistPalette.text) },
-                            onClick = {
-                                filtroDisponibilidad = value
-                                expandirDisponibilidad = false
-                            },
-                        )
-                    }
-                }
-            }
-
-            Button(
-                onClick = {
-                    filtroLocalizacion = ""
-                    filtroDificultad = ""
-                    filtroRecompensa = 1000f
-                    filtroDisponibilidad = "todos"
-                },
-                modifier = Modifier.fillMaxWidth(),
-                colors = ButtonDefaults.buttonColors(containerColor = HeistPalette.accent),
-            ) {
-                Text("Quitar filtros")
-            }
         }
 
-        Spacer(modifier = Modifier.height(16.dp))
+    ) { innerPadding ->
+        Column(
+            modifier =
+                modifier
+                    .fillMaxSize()
+                    .verticalScroll(rememberScrollState())
+                    .padding(innerPadding)
+                    .padding(16.dp),
+        ) {
 
-        when {
-            uiState.loading ->
-                Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
-                    CircularProgressIndicator(color = HeistPalette.positiveGreen)
-                }
-
-            uiState.loadError != null ->
-                Column(
+            ExpandableFilterSection(
+                expanded = mostrarFiltros,
+                onToggle = { mostrarFiltros = !mostrarFiltros },
+            ) {
+                OutlinedTextField(
+                    value = filtroLocalizacion,
+                    onValueChange = { filtroLocalizacion = it },
+                    label = { Text("Localización (Ej: Madrid)") },
                     modifier = Modifier.fillMaxWidth(),
-                    verticalArrangement = Arrangement.spacedBy(12.dp),
-                ) {
-                    Text(uiState.loadError.orEmpty(), color = HeistPalette.errorSoft)
-                    Button(onClick = viewModel::refreshData) {
-                        Text("Reintentar")
-                    }
-                }
+                    colors = filterFieldColors(),
+                )
 
-            else ->
-                LazyVerticalGrid(
-                    columns = GridCells.Adaptive(minSize = 160.dp),
-                    contentPadding = PaddingValues(bottom = 16.dp),
-                    verticalArrangement = Arrangement.spacedBy(12.dp),
-                    horizontalArrangement = Arrangement.spacedBy(12.dp),
-                ) {
-                    items(filtrados, key = { it.banco.id }) { row ->
-                        BancoCard(row = row) {
-                            viewModel.selectRow(row)
+                Box(modifier = Modifier.fillMaxWidth()) {
+                    OutlinedTextField(
+                        value =
+                            when (filtroDificultad) {
+                                "facil" -> "Fácil"
+                                "media" -> "Media"
+                                "alta" -> "Alta"
+                                else -> "Todos"
+                            },
+                        onValueChange = {},
+                        label = { Text("Dificultad") },
+                        modifier =
+                            Modifier
+                                .fillMaxWidth()
+                                .clickable { expandirDificultad = true },
+                        readOnly = true,
+                        enabled = false,
+                        trailingIcon = {
+                            Icon(
+                                Icons.Filled.ArrowDropDown,
+                                contentDescription = null
+                            )
+                        },
+                        colors = filterFieldColors(),
+                    )
+                    DropdownMenu(
+                        expanded = expandirDificultad,
+                        onDismissRequest = { expandirDificultad = false },
+                        modifier = Modifier.background(HeistPalette.card),
+                    ) {
+                        listOf(
+                            "" to "Todos",
+                            "facil" to "Fácil",
+                            "media" to "Media",
+                            "alta" to "Alta",
+                        ).forEach { (value, label) ->
+                            DropdownMenuItem(
+                                text = { Text(label, color = HeistPalette.text) },
+                                onClick = {
+                                    filtroDificultad = value
+                                    expandirDificultad = false
+                                },
+                            )
                         }
                     }
                 }
+
+                Column {
+                    Text("Dinero a ganar: ${filtroRecompensa.toInt()} €", color = HeistPalette.text)
+                    Slider(
+                        value = filtroRecompensa,
+                        onValueChange = { filtroRecompensa = it },
+                        valueRange = 0f..1000f,
+                    )
+                }
+
+                Box(modifier = Modifier.fillMaxWidth()) {
+                    OutlinedTextField(
+                        value =
+                            when (filtroDisponibilidad) {
+                                "si" -> "Sí (Disponible)"
+                                "no" -> "No (Ocupado)"
+                                else -> "Todos"
+                            },
+                        onValueChange = {},
+                        label = { Text("Disponibilidad") },
+                        modifier =
+                            Modifier
+                                .fillMaxWidth()
+                                .clickable { expandirDisponibilidad = true },
+                        readOnly = true,
+                        enabled = false,
+                        trailingIcon = {
+                            Icon(
+                                Icons.Filled.ArrowDropDown,
+                                contentDescription = null
+                            )
+                        },
+                        colors = filterFieldColors(),
+                    )
+                    DropdownMenu(
+                        expanded = expandirDisponibilidad,
+                        onDismissRequest = { expandirDisponibilidad = false },
+                        modifier = Modifier.background(HeistPalette.card),
+                    ) {
+                        listOf(
+                            "todos" to "Todos",
+                            "si" to "Sí (Disponible)",
+                            "no" to "No (Ocupado)",
+                        ).forEach { (value, label) ->
+                            DropdownMenuItem(
+                                text = { Text(label, color = HeistPalette.text) },
+                                onClick = {
+                                    filtroDisponibilidad = value
+                                    expandirDisponibilidad = false
+                                },
+                            )
+                        }
+                    }
+                }
+
+                Button(
+                    onClick = {
+                        filtroLocalizacion = ""
+                        filtroDificultad = ""
+                        filtroRecompensa = 1000f
+                        filtroDisponibilidad = "todos"
+                    },
+                    modifier = Modifier.fillMaxWidth(),
+                    colors = ButtonDefaults.buttonColors(containerColor = HeistPalette.accent),
+                ) {
+                    Text("Quitar filtros")
+                }
+            }
+
+            Spacer(modifier = Modifier.height(16.dp))
+
+            when {
+                uiState.loading ->
+                    Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
+                        CircularProgressIndicator(color = HeistPalette.positiveGreen)
+                    }
+
+                uiState.loadError != null ->
+                    Column(
+                        modifier = Modifier.fillMaxWidth(),
+                        verticalArrangement = Arrangement.spacedBy(12.dp),
+                    ) {
+                        Text(uiState.loadError.orEmpty(), color = HeistPalette.errorSoft)
+                        Button(onClick = viewModel::refreshData) {
+                            Text("Reintentar")
+                        }
+                    }
+
+                else ->
+                    LazyVerticalGrid(
+                        columns = GridCells.Adaptive(minSize = 160.dp),
+                        contentPadding = PaddingValues(bottom = 16.dp),
+                        verticalArrangement = Arrangement.spacedBy(12.dp),
+                        horizontalArrangement = Arrangement.spacedBy(12.dp),
+                    ) {
+                        items(filtrados, key = { it.banco.id }) { row ->
+                            BancoCard(row = row) {
+                                viewModel.selectRow(row)
+                            }
+                        }
+                    }
+            }
         }
     }
 

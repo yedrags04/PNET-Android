@@ -2,10 +2,10 @@ package com.heistcorp.heistcraft.app
 
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
+import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.NavigationBar
-import androidx.compose.material3.NavigationBarDefaults
 import androidx.compose.material3.NavigationBarItem
 import androidx.compose.material3.NavigationBarItemDefaults
 import androidx.compose.material3.Scaffold
@@ -13,12 +13,12 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.unit.dp
 import androidx.navigation.NavDestination
 import androidx.navigation.compose.currentBackStackEntryAsState
 import com.heistcorp.heistcraft.navigation.AppNavHost
 import com.heistcorp.heistcraft.navigation.Destination
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun App(modifier: Modifier = Modifier) {
     val appState = rememberAppState()
@@ -44,7 +44,9 @@ fun App(modifier: Modifier = Modifier) {
         AppNavHost(
             navController = navController,
             startDestination = Destination.Inicio.route,
-            modifier = Modifier.padding(innerPadding),
+            modifier = Modifier.padding(
+                bottom = innerPadding.calculateBottomPadding()
+            )
         )
     }
 }
@@ -60,8 +62,6 @@ private fun AppBottomBar(
     NavigationBar(
         containerColor = colorScheme.secondary,
         contentColor = colorScheme.onSecondary,
-        tonalElevation = 0.dp,
-        windowInsets = NavigationBarDefaults.windowInsets,
     ) {
         destinations.forEach { destination ->
             NavigationBarItem(

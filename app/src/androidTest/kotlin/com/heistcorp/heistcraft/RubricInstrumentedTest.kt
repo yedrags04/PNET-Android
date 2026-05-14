@@ -14,7 +14,8 @@ import org.junit.runner.RunWith
 @RunWith(AndroidJUnit4::class)
 class RubricInstrumentedTest {
 
-    @get:Rule val composeRule = createAndroidComposeRule<MainActivity>()
+    @get:Rule
+    val composeRule = createAndroidComposeRule<MainActivity>()
 
     @Test
     fun bottomBar_muestra_faq() {

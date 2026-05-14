@@ -103,9 +103,11 @@ fun ReservasListScreen(navController: NavHostController) {
                 )
 
             uiState.error != null ->
-                Column(Modifier
-                    .padding(padding)
-                    .padding(16.dp)) {
+                Column(
+                    Modifier
+                        .padding(padding)
+                        .padding(16.dp)
+                ) {
                     Text(uiState.error.orEmpty(), color = HeistPalette.errorSoft)
                     TextButton(onClick = viewModel::refresh) { Text("Reintentar") }
                 }

@@ -31,14 +31,7 @@ fun AppNavHost(
         modifier = modifier,
     ) {
         composable(route = Destination.Inicio.route) {
-            InicioScreen(
-                onNavigateToLogin = {
-                    navController.navigate(Destination.Login.route) { launchSingleTop = true }
-                },
-                onNavigateToPerfil = {
-                    navController.navigate(Destination.Perfil.route) { launchSingleTop = true }
-                },
-            )
+            InicioScreen()
         }
 
         composable(route = Destination.Bancos.route) {

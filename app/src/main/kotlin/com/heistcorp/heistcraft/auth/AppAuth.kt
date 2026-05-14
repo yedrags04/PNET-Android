@@ -13,12 +13,6 @@ object AppAuth {
     val currentSession: UserSession?
         get() = sessionState.value
 
-    val currentEmail: String?
-        get() = sessionState.value?.email
-
-    val currentProfile: UserProfile?
-        get() = sessionState.value?.profile
-
     fun register(session: UserSession): Boolean {
         val key = session.email.trim().lowercase()
         if (accounts.containsKey(key)) return false

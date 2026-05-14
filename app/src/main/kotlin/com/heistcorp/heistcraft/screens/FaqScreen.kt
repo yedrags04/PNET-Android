@@ -29,10 +29,10 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import com.heistcorp.heistcraft.ui.theme.HeistPalette
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
+import com.heistcorp.heistcraft.ui.theme.HeistPalette
 
 private data class FaqTextEntry(val question: String, val answer: String)
 
@@ -48,50 +48,50 @@ fun FaqScreen(onBack: () -> Unit, modifier: Modifier = Modifier) {
                 FaqTextEntry(
                     "¿Cómo elegir el objetivo correcto?",
                     "Consulta el catálogo de bancos filtrado por dificultad, ubicación y recompensa. " +
-                        "Considera tu experiencia y equipo disponible antes de elegir. Los objetivos con " +
-                        "dificultad fácil son ideales para principiantes, mientras que los de dificultad alta " +
-                        "requieren equipo avanzado.",
+                            "Considera tu experiencia y equipo disponible antes de elegir. Los objetivos con " +
+                            "dificultad fácil son ideales para principiantes, mientras que los de dificultad alta " +
+                            "requieren equipo avanzado.",
                 ),
                 FaqTextEntry(
                     "¿Qué equipamiento es esencial?",
                     "El equipo mínimo incluye guantes de microfibra para evitar huellas, pasamontañas para " +
-                        "proteger tu identidad y herramientas básicas como cortacristales. En operaciones de " +
-                        "alta dificultad recomendamos cortacristales con ventosa para mayor precisión.",
+                            "proteger tu identidad y herramientas básicas como cortacristales. En operaciones de " +
+                            "alta dificultad recomendamos cortacristales con ventosa para mayor precisión.",
                 ),
                 FaqTextEntry(
                     "¿Puedo cambiar de objetivo después de hacer la reserva?",
                     "Sí, puedes cambiar de objetivo hasta 48 horas antes de la operación. Los cambios " +
-                        "realizados después de este período incurrirán en una penalización del 10% sobre la " +
-                        "recompensa estimada.",
+                            "realizados después de este período incurrirán en una penalización del 10% sobre la " +
+                            "recompensa estimada.",
                 ),
                 FaqTextEntry(
                     "¿Cómo funciona el sistema de dificultad?",
                     "• Fácil: Horarios comerciales, mínimos guardias.\n" +
-                        "• Media: Horarios limitados, sistemas de seguridad básicos.\n" +
-                        "• Alta: Vigilancia 24h, sistemas avanzados. La dificultad afecta directamente a tu " +
-                        "recompensa potencial.",
+                            "• Media: Horarios limitados, sistemas de seguridad básicos.\n" +
+                            "• Alta: Vigilancia 24h, sistemas avanzados. La dificultad afecta directamente a tu " +
+                            "recompensa potencial.",
                 ),
                 FaqTextEntry(
                     "¿Qué tipos de objetos puedo obtener?",
                     "Disponemos de tres categorías principales: efectivo en euros, lingotes de oro y obras de " +
-                        "arte. Cada categoría tiene su propio mercado y valor.",
+                            "arte. Cada categoría tiene su propio mercado y valor.",
                 ),
                 FaqTextEntry(
                     "¿Hay límite de operaciones por mes?",
                     "No hay límite de operaciones, pero recomendamos no exceder 3 operaciones por mes en el " +
-                        "mismo objetivo para evitar sospechas.",
+                            "mismo objetivo para evitar sospechas.",
                 ),
                 FaqTextEntry(
                     "¿Qué pasa si algo sale mal durante la operación?",
                     "HeistCraft no se responsabiliza por complicaciones durante las operaciones. Sin embargo, " +
-                        "proporcionamos mapas detallados, horarios actualizados y asesoramiento sobre rutas de " +
-                        "escape seguras. Recomendamos siempre planificar exhaustivamente.",
+                            "proporcionamos mapas detallados, horarios actualizados y asesoramiento sobre rutas de " +
+                            "escape seguras. Recomendamos siempre planificar exhaustivamente.",
                 ),
                 FaqTextEntry(
                     "¿Cómo puedo mejorar mi equipo?",
                     "Visita la sección Utensilios donde encontrarás desde equipamiento básico hasta " +
-                        "herramientas profesionales. A medida que aumentes tu experiencia, podrás acceder a " +
-                        "equipos de mayor calidad.",
+                            "herramientas profesionales. A medida que aumentes tu experiencia, podrás acceder a " +
+                            "equipos de mayor calidad.",
                 ),
             )
         }
@@ -164,7 +164,11 @@ private fun FaqExpandableTextItem(question: String, answer: String, modifier: Mo
 }
 
 @Composable
-private fun FaqExpandableMapItem(question: String, onOpenMap: () -> Unit, modifier: Modifier = Modifier) {
+private fun FaqExpandableMapItem(
+    question: String,
+    onOpenMap: () -> Unit,
+    modifier: Modifier = Modifier
+) {
     var expanded by remember(question) { mutableStateOf(false) }
     FaqExpandableShell(
         question = question,

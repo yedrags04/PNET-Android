@@ -1,12 +1,12 @@
 package com.heistcorp.heistcraft.navigation
 
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.automirrored.filled.HelpOutline
+import androidx.compose.material.icons.automirrored.filled.List
 import androidx.compose.material.icons.filled.AccountCircle
 import androidx.compose.material.icons.filled.AttachMoney
 import androidx.compose.material.icons.filled.Handyman
-import androidx.compose.material.icons.filled.HelpOutline
 import androidx.compose.material.icons.filled.Home
-import androidx.compose.material.icons.filled.List
 import androidx.compose.material.icons.filled.Lock
 import androidx.compose.material.icons.filled.PersonAdd
 import androidx.compose.ui.graphics.vector.ImageVector
@@ -42,7 +42,7 @@ sealed class Destination(
     data object Reservas : Destination(
         route = "reservas",
         label = "Reservas",
-        icon = Icons.Filled.List,
+        icon = Icons.AutoMirrored.Filled.List,
         contentDescription = "Listado de reservas",
     )
 
@@ -70,15 +70,12 @@ sealed class Destination(
     data object Faq : Destination(
         route = "faq",
         label = "FAQ",
-        icon = Icons.Filled.HelpOutline,
+        icon = Icons.AutoMirrored.Filled.HelpOutline,
         contentDescription = "Preguntas frecuentes",
     )
 
     companion object {
         val bottomDestinations = listOf(Inicio, Bancos, Utensilios, Faq)
-
-        @Deprecated("Usar bottomDestinations", ReplaceWith("Destination.bottomDestinations"))
-        val topLevelDestinations = bottomDestinations
     }
 }
 

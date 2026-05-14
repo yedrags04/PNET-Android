@@ -7,8 +7,8 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.fillMaxHeight
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.rememberScrollState
@@ -19,13 +19,13 @@ import androidx.compose.material.icons.filled.ArrowDropDown
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Checkbox
-import androidx.compose.material3.Icon
 import androidx.compose.material3.DatePicker
 import androidx.compose.material3.DatePickerDialog
 import androidx.compose.material3.DropdownMenu
 import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.HorizontalDivider
+import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.OutlinedTextFieldDefaults
@@ -45,7 +45,6 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import com.heistcorp.heistcraft.ui.theme.HeistPalette
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
@@ -53,6 +52,7 @@ import androidx.compose.ui.window.Dialog
 import androidx.compose.ui.window.DialogProperties
 import com.heistcorp.heistcraft.data.ReservaApi
 import com.heistcorp.heistcraft.data.ReservaCreateBody
+import com.heistcorp.heistcraft.ui.theme.HeistPalette
 import java.time.Instant
 import java.time.LocalDate
 import java.time.ZoneId
@@ -171,7 +171,8 @@ private fun FormularioReservaDialogContent(
                 ""
             } else {
                 runCatching {
-                    LocalDate.parse(fechaIso).format(DateTimeFormatter.ofPattern("dd/MM/yyyy", Locale.getDefault()))
+                    LocalDate.parse(fechaIso)
+                        .format(DateTimeFormatter.ofPattern("dd/MM/yyyy", Locale.getDefault()))
                 }.getOrDefault(fechaIso)
             }
         }
@@ -259,7 +260,9 @@ private fun FormularioReservaDialogContent(
                 )
 
                 Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
-                    Box(modifier = Modifier.weight(1f).clickable { showDatePicker = true }) {
+                    Box(modifier = Modifier
+                        .weight(1f)
+                        .clickable { showDatePicker = true }) {
                         OutlinedTextField(
                             value = fechaDisplay,
                             onValueChange = { },
@@ -271,7 +274,9 @@ private fun FormularioReservaDialogContent(
                             colors = fieldColors(),
                         )
                     }
-                    Box(modifier = Modifier.weight(1f).clickable { showTimePicker = true }) {
+                    Box(modifier = Modifier
+                        .weight(1f)
+                        .clickable { showTimePicker = true }) {
                         OutlinedTextField(
                             value = horaTexto,
                             onValueChange = { },
@@ -308,7 +313,12 @@ private fun FormularioReservaDialogContent(
                                 .clickable { expandirRiesgo = true },
                         readOnly = true,
                         enabled = false,
-                        trailingIcon = { Icon(Icons.Filled.ArrowDropDown, contentDescription = null) },
+                        trailingIcon = {
+                            Icon(
+                                Icons.Filled.ArrowDropDown,
+                                contentDescription = null
+                            )
+                        },
                         colors = fieldColors(),
                     )
                     DropdownMenu(
@@ -364,16 +374,46 @@ private fun FormularioReservaDialogContent(
 
                 Column {
                     Row(modifier = Modifier.fillMaxWidth()) {
-                        CheckboxConTexto("Hacking / Sistemas", espHacking, { espHacking = it }, Modifier.weight(1f))
-                        CheckboxConTexto("Conducción", espDriving, { espDriving = it }, Modifier.weight(1f))
+                        CheckboxConTexto(
+                            "Hacking / Sistemas",
+                            espHacking,
+                            { espHacking = it },
+                            Modifier.weight(1f)
+                        )
+                        CheckboxConTexto(
+                            "Conducción",
+                            espDriving,
+                            { espDriving = it },
+                            Modifier.weight(1f)
+                        )
                     }
                     Row(modifier = Modifier.fillMaxWidth()) {
-                        CheckboxConTexto("Explosivos", espExplosives, { espExplosives = it }, Modifier.weight(1f))
-                        CheckboxConTexto("Infiltración", espNegotiation, { espNegotiation = it }, Modifier.weight(1f))
+                        CheckboxConTexto(
+                            "Explosivos",
+                            espExplosives,
+                            { espExplosives = it },
+                            Modifier.weight(1f)
+                        )
+                        CheckboxConTexto(
+                            "Infiltración",
+                            espNegotiation,
+                            { espNegotiation = it },
+                            Modifier.weight(1f)
+                        )
                     }
                     Row(modifier = Modifier.fillMaxWidth()) {
-                        CheckboxConTexto("Combate", espCombat, { espCombat = it }, Modifier.weight(1f))
-                        CheckboxConTexto("Logística", espLogistics, { espLogistics = it }, Modifier.weight(1f))
+                        CheckboxConTexto(
+                            "Combate",
+                            espCombat,
+                            { espCombat = it },
+                            Modifier.weight(1f)
+                        )
+                        CheckboxConTexto(
+                            "Logística",
+                            espLogistics,
+                            { espLogistics = it },
+                            Modifier.weight(1f)
+                        )
                     }
                 }
 
@@ -390,16 +430,16 @@ private fun FormularioReservaDialogContent(
                 val budgetOk = presupuesto.toDoubleOrNull() != null
                 val formularioValido =
                     nombreLider.isNotBlank() &&
-                        emailLider.isNotBlank() &&
-                        fechaIso.isNotBlank() &&
-                        horaTexto.isNotBlank() &&
-                        riskLevelApi.isNotBlank() &&
-                        equipoNecesario.isNotBlank() &&
-                        planOperacion.isNotBlank() &&
-                        terminosAceptados &&
-                        expOk &&
-                        teamOk &&
-                        budgetOk
+                            emailLider.isNotBlank() &&
+                            fechaIso.isNotBlank() &&
+                            horaTexto.isNotBlank() &&
+                            riskLevelApi.isNotBlank() &&
+                            equipoNecesario.isNotBlank() &&
+                            planOperacion.isNotBlank() &&
+                            terminosAceptados &&
+                            expOk &&
+                            teamOk &&
+                            budgetOk
 
                 Row(
                     modifier = Modifier.fillMaxWidth(),
@@ -494,9 +534,16 @@ private fun FormularioReservaDialogContent(
                     modifier = Modifier.padding(24.dp),
                     horizontalAlignment = Alignment.CenterHorizontally,
                 ) {
-                    Text("Selecciona la hora", color = HeistPalette.text, modifier = Modifier.padding(bottom = 20.dp))
+                    Text(
+                        "Selecciona la hora",
+                        color = HeistPalette.text,
+                        modifier = Modifier.padding(bottom = 20.dp)
+                    )
                     TimePicker(state = timePickerState)
-                    Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.End) {
+                    Row(
+                        modifier = Modifier.fillMaxWidth(),
+                        horizontalArrangement = Arrangement.End
+                    ) {
                         TextButton(onClick = { showTimePicker = false }) {
                             Text("Cancelar")
                         }

@@ -45,37 +45,6 @@ data class UtensilioApi(
     val id: String get() = idRaw.asMongoIdString()
 }
 
-/** Cuerpo compatible con `script.js` del frontend (POST /api/reservas, PUT /api/reservas/:id). */
-data class SalaApi(
-    @SerializedName("_id") val idRaw: JsonElement,
-    @SerializedName("name") val name: String,
-    @SerializedName("description") val description: String,
-    @SerializedName("capacity") val capacity: Int,
-    @SerializedName("pricePerNight") val pricePerNight: Int,
-    @SerializedName("image") val image: String,
-) {
-    val id: String get() = idRaw.asMongoIdString()
-}
-
-/** Alineado con `PNET-Android/api/animal-api-mongo/models/animal.js` (y PNET `/api/animales`). */
-data class AnimalApi(
-    val id: Int,
-    val nombre: String,
-    val especie: String,
-    val edad: Int,
-    val habitat: String = "",
-    @SerializedName(value = "enPeligro", alternate = ["peligroso"])
-    val enPeligro: Boolean = false,
-)
-
-data class AnimalCreateBody(
-    val nombre: String,
-    val especie: String,
-    val edad: Int,
-    val habitat: String = "",
-    @SerializedName("enPeligro") val enPeligro: Boolean,
-)
-
 data class ReservaCreateBody(
     @SerializedName("leaderName") val leaderName: String,
     @SerializedName("leaderEmail") val leaderEmail: String,

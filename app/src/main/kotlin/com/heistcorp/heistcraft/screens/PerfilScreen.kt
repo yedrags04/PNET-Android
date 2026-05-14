@@ -20,12 +20,12 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import com.heistcorp.heistcraft.ui.theme.HeistPalette
 import androidx.compose.ui.res.pluralStringResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.heistcorp.heistcraft.R
 import com.heistcorp.heistcraft.auth.AppAuth
+import com.heistcorp.heistcraft.ui.theme.HeistPalette
 
 @Composable
 fun PerfilScreen(
@@ -45,7 +45,11 @@ fun PerfilScreen(
         verticalArrangement = Arrangement.spacedBy(16.dp),
     ) {
         IconButton(onClick = onBack) {
-            Icon(Icons.AutoMirrored.Filled.ArrowBack, contentDescription = "Volver", tint = HeistPalette.text)
+            Icon(
+                Icons.AutoMirrored.Filled.ArrowBack,
+                contentDescription = "Volver",
+                tint = HeistPalette.text
+            )
         }
         Text("Perfil", style = MaterialTheme.typography.headlineMedium, color = HeistPalette.text)
         if (session == null) {

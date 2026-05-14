@@ -18,7 +18,6 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
-import androidx.compose.material3.OutlinedTextFieldDefaults
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
@@ -28,8 +27,6 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import com.heistcorp.heistcraft.ui.theme.HeistPalette
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.PasswordVisualTransformation
@@ -38,16 +35,12 @@ import com.heistcorp.heistcraft.R
 import com.heistcorp.heistcraft.auth.AppAuth
 import com.heistcorp.heistcraft.auth.UserProfile
 import com.heistcorp.heistcraft.auth.UserSession
+import com.heistcorp.heistcraft.ui.components.heistFormFieldColors
+import com.heistcorp.heistcraft.ui.theme.HeistPalette
 
 private val fieldColors
     @Composable
-    get() =
-        OutlinedTextFieldDefaults.colors(
-            focusedTextColor = HeistPalette.text,
-            unfocusedTextColor = HeistPalette.text,
-            focusedLabelColor = HeistPalette.amber,
-            unfocusedLabelColor = HeistPalette.muted,
-        )
+    get() = heistFormFieldColors()
 
 @Composable
 fun SignupScreen(
@@ -70,11 +63,11 @@ fun SignupScreen(
     val match = password.isNotBlank() && password == confirm
     val canSubmit =
         fullName.isNotBlank() &&
-            nickname.isNotBlank() &&
-            mainSkill.isNotBlank() &&
-            email.isNotBlank() &&
-            yearsOk &&
-            match
+                nickname.isNotBlank() &&
+                mainSkill.isNotBlank() &&
+                email.isNotBlank() &&
+                yearsOk &&
+                match
 
     Column(
         modifier =
@@ -86,9 +79,17 @@ fun SignupScreen(
         verticalArrangement = Arrangement.spacedBy(12.dp),
     ) {
         IconButton(onClick = onBack) {
-            Icon(Icons.AutoMirrored.Filled.ArrowBack, contentDescription = "Volver", tint = HeistPalette.text)
+            Icon(
+                Icons.AutoMirrored.Filled.ArrowBack,
+                contentDescription = "Volver",
+                tint = HeistPalette.text
+            )
         }
-        Text("Crear cuenta", style = MaterialTheme.typography.headlineMedium, color = HeistPalette.text)
+        Text(
+            "Crear cuenta",
+            style = MaterialTheme.typography.headlineMedium,
+            color = HeistPalette.text
+        )
         Text(
             stringResource(R.string.registro_subtitulo),
             style = MaterialTheme.typography.bodyMedium,
@@ -121,7 +122,10 @@ fun SignupScreen(
             keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
             supportingText = {
                 if (yearsText.isNotEmpty() && !yearsOk) {
-                    Text(stringResource(R.string.field_anos_experiencia_ayuda), color = MaterialTheme.colorScheme.error)
+                    Text(
+                        stringResource(R.string.field_anos_experiencia_ayuda),
+                        color = MaterialTheme.colorScheme.error
+                    )
                 }
             },
             isError = yearsText.isNotEmpty() && !yearsOk,
@@ -210,7 +214,10 @@ fun SignupScreen(
         ) {
             Text(stringResource(R.string.registrarse))
         }
-        TextButton(onClick = onNavigateToLogin, modifier = Modifier.align(Alignment.CenterHorizontally)) {
+        TextButton(
+            onClick = onNavigateToLogin,
+            modifier = Modifier.align(Alignment.CenterHorizontally)
+        ) {
             Text("¿Ya tienes cuenta? Inicia sesión", color = HeistPalette.amber)
         }
         Spacer(Modifier.height(24.dp))

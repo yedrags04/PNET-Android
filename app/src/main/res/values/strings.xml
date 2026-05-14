@@ -1,6 +1,5 @@
 <resources>
     <string name="app_name">HeistCraft</string>
-    <string name="nombre_establecimiento">HeistCraft — Operaciones y equipamiento</string>
     <string name="iniciar_sesion">Iniciar sesión</string>
     <string name="cd_ir_perfil">Ir al perfil</string>
 

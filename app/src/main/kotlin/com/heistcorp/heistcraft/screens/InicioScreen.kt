@@ -23,7 +23,6 @@ import androidx.compose.material.icons.filled.ArrowDropDown
 import androidx.compose.material.icons.filled.Search
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
-import androidx.compose.material3.IconButton
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.DatePicker
@@ -33,6 +32,7 @@ import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.ElevatedCard
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.OutlinedTextFieldDefaults
@@ -47,10 +47,9 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import com.heistcorp.heistcraft.ui.theme.HeistPalette
 import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
@@ -60,6 +59,7 @@ import com.heistcorp.heistcraft.R
 import com.heistcorp.heistcraft.auth.AppAuth
 import com.heistcorp.heistcraft.data.BancoApi
 import com.heistcorp.heistcraft.network.ApiClient
+import com.heistcorp.heistcraft.ui.theme.HeistPalette
 import com.heistcorp.heistcraft.util.resolveAssetUrl
 import java.text.SimpleDateFormat
 import java.util.Calendar
@@ -72,7 +72,7 @@ fun InicioScreen(
     onNavigateToPerfil: () -> Unit,
     modifier: Modifier = Modifier,
 ) {
-    val sesionActiva = AppAuth.currentEmail != null
+    val sesionActiva = AppAuth.currentSession != null
 
     var textoBusqueda by remember { mutableStateOf("") }
 
@@ -173,7 +173,9 @@ fun InicioScreen(
                             ),
                     )
 
-                    Box(modifier = Modifier.fillMaxWidth().clickable { showDatePicker = true }) {
+                    Box(modifier = Modifier
+                        .fillMaxWidth()
+                        .clickable { showDatePicker = true }) {
                         OutlinedTextField(
                             value = fechaTexto,
                             onValueChange = { },
@@ -200,7 +202,12 @@ fun InicioScreen(
                                     .clickable { expandirBotin = true },
                             readOnly = true,
                             enabled = false,
-                            trailingIcon = { Icon(Icons.Filled.ArrowDropDown, contentDescription = null) },
+                            trailingIcon = {
+                                Icon(
+                                    Icons.Filled.ArrowDropDown,
+                                    contentDescription = null
+                                )
+                            },
                             colors =
                                 OutlinedTextFieldDefaults.colors(
                                     disabledTextColor = HeistPalette.text,
@@ -213,7 +220,8 @@ fun InicioScreen(
                             onDismissRequest = { expandirBotin = false },
                             modifier = Modifier.background(HeistPalette.card),
                         ) {
-                            val opcionesBotin = listOf("Efectivo", "Lingotes de Oro", "Obras de Arte")
+                            val opcionesBotin =
+                                listOf("Efectivo", "Lingotes de Oro", "Obras de Arte")
                             opcionesBotin.forEach { seleccion ->
                                 DropdownMenuItem(
                                     text = { Text(seleccion, color = HeistPalette.text) },
@@ -232,7 +240,7 @@ fun InicioScreen(
                             Modifier
                                 .fillMaxWidth()
                                 .height(50.dp),
-                        colors = ButtonDefaults.buttonColors(containerColor = HeistPalette.positiveGreen),
+                        colors = ButtonDefaults.buttonColors(containerColor = HeistPalette.accent),
                     ) {
                         Text("Buscar", fontSize = MaterialTheme.typography.titleMedium.fontSize)
                     }
@@ -260,12 +268,14 @@ fun InicioScreen(
                     ) {
                         CircularProgressIndicator(color = HeistPalette.positiveGreen)
                     }
+
                 bancosCarrusel.isEmpty() ->
                     Text(
                         "No se pudieron cargar los bancos. Comprueba que el servidor HeistCraft esté en marcha.",
                         color = HeistPalette.muted,
                         modifier = Modifier.padding(horizontal = 16.dp),
                     )
+
                 else ->
                     LazyRow(
                         contentPadding = PaddingValues(horizontal = 16.dp),
